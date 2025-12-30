@@ -1,0 +1,39 @@
+// Anthropic-inspired color palette
+// Clean, muted, professional
+
+// Base colors
+$color-bg: #faf9f7;
+$color-bg-alt: #f5f3f0;
+$color-surface: #ffffff;
+
+// Text colors
+$color-text: #1a1a1a;
+$color-text-muted: #6b6b6b;
+$color-text-light: #999999;
+
+// Accent colors (subtle, washed)
+$color-accent: #c96442;
+$color-accent-light: #e8d5cf;
+$color-link: #2563eb;
+$color-link-hover: #1d4ed8;
+
+// Borders
+$color-border: #e5e5e5;
+$color-border-light: #f0f0f0;
+
+// Code
+$color-code-bg: #f5f5f5;
+$color-code-text: #1a1a1a;
+
+// Typography
+$font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+$font-mono: "SF Mono", SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
+$font-serif: Georgia, "Times New Roman", serif;
+
+// Sizing
+$max-width: 720px;
+$max-width-wide: 1000px;
+$spacing-unit: 1.5rem;
+
+// Breakpoints
+$breakpoint-mobile: 600px;
