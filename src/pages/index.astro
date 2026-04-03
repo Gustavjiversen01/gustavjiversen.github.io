@@ -1,17 +1,18 @@
 ---
-
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Section from '../components/Section.astro';
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout
+  title="Gustav Jes Iversen | Developer & AI Engineer"
+  description="Personal portfolio and blog. Open source projects, technical writing on ML, AI agents, and autonomous systems."
+>
+  <Section>
+    <h1 class="font-serif text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.05]">
+      Gustav Jes Iversen
+    </h1>
+    <p class="mt-4 text-lg text-text-secondary">
+      Foundation placeholder -- full homepage coming soon.
+    </p>
+  </Section>
+</BaseLayout>

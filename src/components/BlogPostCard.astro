@@ -1,0 +1,18 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+---
+
+<a href={`/blog/${post.id}/`} class="group block border border-border bg-bg-elevated rounded-xl p-6 hover:border-border-hover hover:bg-bg-hover transition-colors duration-150">
+  <h3 class="font-bold text-lg text-text-primary group-hover:text-accent-400 transition-colors duration-150 tracking-tight">
+    {post.data.title}
+  </h3>
+  <p class="text-sm text-text-secondary leading-relaxed mt-2">
+    {post.data.description}
+  </p>
+</a>

@@ -1,0 +1,60 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-border bg-bg-primary">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-14">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+      <!-- Brand + Nav -->
+      <div>
+        <span class="text-xl font-bold tracking-tight text-text-primary">Gustav Iversen</span>
+        <p class="mt-4 text-sm text-text-muted max-w-xs leading-relaxed">
+          Developer, AI engineer, and open source contributor.
+        </p>
+        <nav aria-label="Footer" class="mt-4 flex gap-4">
+          <a href="/projects/" class="text-sm text-text-muted hover:text-accent-400 transition-colors">
+            Projects
+          </a>
+          <a href="/blog/" class="text-sm text-text-muted hover:text-accent-400 transition-colors">
+            Blog
+          </a>
+          <a href="/about/" class="text-sm text-text-muted hover:text-accent-400 transition-colors">
+            About
+          </a>
+        </nav>
+      </div>
+
+      <!-- Contact + Links -->
+      <div>
+        <h3 class="text-sm font-semibold text-text-primary mb-3">Contact</h3>
+        <div class="flex flex-col gap-2 text-sm text-text-muted">
+          <a href="mailto:gustav@gustaviversen.dev" class="hover:text-accent-400 transition-colors">
+            gustav@gustaviversen.dev
+          </a>
+          <a href="https://github.com/gustaviversen" target="_blank" rel="noopener noreferrer" class="hover:text-accent-400 transition-colors">
+            GitHub
+          </a>
+          <a href="https://www.linkedin.com/in/gustav-jes-iversen-663641218/" target="_blank" rel="noopener noreferrer" class="hover:text-accent-400 transition-colors">
+            LinkedIn
+          </a>
+          <a href="/rss.xml" class="hover:text-accent-400 transition-colors">
+            RSS Feed
+          </a>
+        </div>
+        <p class="mt-4 text-sm text-text-muted">
+          Consulting via
+          <a href="https://havenintelligence.dk" target="_blank" rel="noopener noreferrer" class="text-accent-400 hover:text-accent-300 transition-colors">
+            HAVEN Intelligence
+          </a>
+        </p>
+      </div>
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="mt-10 pt-8 border-t border-border flex flex-col sm:flex-row justify-between items-center gap-4">
+      <p class="text-xs text-text-muted">
+        &copy; {year} Gustav Jes Iversen. All rights reserved.
+      </p>
+    </div>
+  </div>
+</footer>
