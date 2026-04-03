@@ -1,18 +1,154 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Section from '../components/Section.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import BlogPostCard from '../components/BlogPostCard.astro';
+import { getCollection } from 'astro:content';
+
+const allProjects = await getCollection('projects');
+const featuredProjects = allProjects
+  .filter((p) => p.data.featured)
+  .sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime());
+
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const latestPosts = allPosts
+  .sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime())
+  .slice(0, 3);
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Gustav Jes Iversen',
+  jobTitle: 'Developer & AI Engineer',
+  url: 'https://gustaviversen.dev',
+  sameAs: [
+    'https://github.com/gustaviversen',
+    'https://www.linkedin.com/in/gustav-jes-iversen-663641218/',
+  ],
+};
 ---
 
 <BaseLayout
   title="Gustav Jes Iversen | Developer & AI Engineer"
   description="Personal portfolio and blog. Open source projects, technical writing on ML, AI agents, and autonomous systems."
+  jsonLd={jsonLd}
 >
-  <Section>
-    <h1 class="font-serif text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.05]">
-      Gustav Jes Iversen
-    </h1>
-    <p class="mt-4 text-lg text-text-secondary">
-      Foundation placeholder -- full homepage coming soon.
-    </p>
+  <!-- Hero -->
+  <section class="relative overflow-hidden bg-bg-primary pt-12 sm:pt-20 pb-20 sm:pb-28">
+    <div class="absolute -top-1/2 -right-1/4 w-[600px] h-[600px] rounded-full bg-accent-500/[0.07] blur-[120px]"></div>
+    <div class="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center">
+        <!-- Left column -->
+        <div>
+          <h1
+            class="font-serif text-3xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight leading-[1.05]"
+            style="text-shadow: 0 0 80px rgba(212,168,67,0.15)"
+          >
+            Gustav Jes Iversen
+          </h1>
+          <p class="text-gradient text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight mt-2">
+            Developer &amp; AI Engineer
+          </p>
+          <p class="mt-6 text-lg text-text-secondary max-w-2xl leading-relaxed">
+            Building AI systems that ship to production. Open source contributor, ML engineer, and cloud infrastructure builder.
+          </p>
+          <div class="mt-10 flex flex-col sm:flex-row gap-4">
+            <a
+              href="/projects/"
+              class="btn-glow inline-flex items-center justify-center bg-accent-500 text-bg-primary rounded-lg px-6 py-3 text-sm font-medium hover:bg-accent-400 transition-colors"
+            >
+              View Projects
+            </a>
+            <a
+              href="/blog/"
+              class="inline-flex items-center justify-center border border-border text-text-secondary rounded-lg px-6 py-3 text-sm font-medium hover:text-text-primary hover:border-border-hover transition-colors"
+            >
+              Read the Blog
+            </a>
+          </div>
+        </div>
+
+        <!-- Right column: Terminal -->
+        <div class="hidden md:block">
+          <div class="rounded-xl border border-border bg-bg-elevated p-5 font-mono text-sm">
+            <div class="flex items-center gap-2 mb-4">
+              <div class="w-2.5 h-2.5 rounded-full bg-red-500/60"></div>
+              <div class="w-2.5 h-2.5 rounded-full bg-yellow-500/60"></div>
+              <div class="w-2.5 h-2.5 rounded-full bg-green-500/60"></div>
+              <span class="ml-auto text-[11px] text-text-muted">terminal</span>
+            </div>
+            <div class="space-y-1.5 text-xs leading-relaxed">
+              <p class="text-accent-400">~/projects</p>
+              <p><span class="text-accent-400">$</span> <span class="text-text-secondary">claude code --resume</span></p>
+              <p class="text-text-muted">&nbsp; Resuming: haven-intelligence-dk</p>
+              <p class="text-text-muted">&nbsp; [agent] Deploying ML pipeline to Azure</p>
+              <p class="text-text-muted">&nbsp; <span class="text-green-400">[done]</span> 4 files updated</p>
+              <p>&nbsp;</p>
+              <p class="text-accent-400">~/dotfiles</p>
+              <p><span class="text-accent-400">$</span> <span class="text-text-secondary">git log --oneline -3</span></p>
+              <p class="text-text-muted">&nbsp; a3f1bc2 update neovim lsp config</p>
+              <p class="text-text-muted">&nbsp; 7e2d890 add claude code keybindings</p>
+              <p class="text-text-muted">&nbsp; f4c913a zsh alias for ssh tunneling</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Intro strip -->
+  <Section bg="primary">
+    <div class="animate-in">
+      <p class="max-w-2xl text-text-secondary leading-relaxed">
+        I focus on the intersection of software engineering and artificial intelligence -- building
+        autonomous agents, ML pipelines, and the cloud infrastructure that powers them. Always
+        looking for the next hard problem to solve.
+      </p>
+      <div class="mt-6 flex flex-wrap gap-2">
+        {['AI Agents', 'Machine Learning', 'Cloud Infrastructure', 'Autonomous Systems'].map((pill) => (
+          <span class="text-xs rounded-full border border-accent-500/30 bg-accent-500/10 text-accent-400 px-3 py-1">
+            {pill}
+          </span>
+        ))}
+      </div>
+    </div>
   </Section>
+
+  <!-- Featured Projects -->
+  {featuredProjects.length > 0 && (
+    <Section bg="secondary">
+      <div class="animate-in">
+        <h2 class="font-sans text-3xl sm:text-4xl font-bold tracking-tight">Projects</h2>
+        <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
+          {featuredProjects.map((project) => (
+            <ProjectCard project={project} />
+          ))}
+        </div>
+        <div class="mt-8">
+          <a href="/projects/" class="text-accent-400 hover:text-accent-300 text-sm font-medium transition-colors">
+            View all projects &rarr;
+          </a>
+        </div>
+      </div>
+    </Section>
+  )}
+
+  <!-- Latest Posts -->
+  {latestPosts.length > 0 && (
+    <Section bg="primary">
+      <div class="animate-in">
+        <h2 class="font-sans text-3xl sm:text-4xl font-bold tracking-tight">From the Blog</h2>
+        <div class="mt-8 space-y-6 max-w-3xl">
+          {latestPosts.map((post) => (
+            <BlogPostCard post={post} />
+          ))}
+        </div>
+        <div class="mt-8">
+          <a href="/blog/" class="text-accent-400 hover:text-accent-300 text-sm font-medium transition-colors">
+            Read all posts &rarr;
+          </a>
+        </div>
+      </div>
+    </Section>
+  )}
 </BaseLayout>

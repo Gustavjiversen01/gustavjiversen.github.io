@@ -1,0 +1,80 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Section from '../components/Section.astro';
+---
+
+<BaseLayout
+  title="404 - Page Not Found | Gustav Jes Iversen"
+  description="The page you're looking for doesn't exist."
+  noindex={true}
+>
+  <Section class="min-h-[70vh] flex items-center">
+    <div class="max-w-2xl mx-auto text-center">
+      <!-- Terminal -->
+      <div class="mb-10 rounded-xl border border-border bg-bg-elevated overflow-hidden text-left max-w-lg mx-auto">
+        <div class="flex items-center gap-2 px-4 py-3 border-b border-border bg-bg-secondary">
+          <div class="h-3 w-3 rounded-full bg-red-500/70"></div>
+          <div class="h-3 w-3 rounded-full bg-yellow-500/70"></div>
+          <div class="h-3 w-3 rounded-full bg-green-500/70"></div>
+          <span class="ml-2 text-xs text-text-muted font-mono">terminal</span>
+        </div>
+        <div class="p-4 sm:p-6 font-mono text-sm leading-relaxed">
+          <p class="text-text-secondary">
+            <span class="text-accent-400">~</span> <span class="text-text-muted">$</span> cd /page-not-found
+          </p>
+          <p class="text-red-400 mt-1">
+            bash: cd: /page-not-found: No such file or directory
+          </p>
+          <p class="text-text-secondary mt-3">
+            <span class="text-accent-400">~</span> <span class="text-text-muted">$</span> ls ~/
+          </p>
+          <p class="text-text-secondary mt-1">
+            <span class="text-accent-400">home/</span>&nbsp;&nbsp;
+            <span class="text-accent-400">projects/</span>&nbsp;&nbsp;
+            <span class="text-accent-400">blog/</span>&nbsp;&nbsp;
+            <span class="text-accent-400">about/</span>
+          </p>
+          <p class="text-text-secondary mt-3">
+            <span class="text-accent-400">~</span> <span class="text-text-muted">$</span> <span class="inline-block w-2 h-4 bg-accent-400 animate-pulse ml-0.5 align-middle"></span>
+          </p>
+        </div>
+      </div>
+
+      <!-- Heading -->
+      <h1 class="font-sans text-3xl sm:text-5xl font-bold tracking-tight text-text-primary">
+        Page not found
+      </h1>
+      <p class="mt-4 text-text-secondary text-base sm:text-lg leading-relaxed max-w-md mx-auto">
+        The page you're looking for doesn't exist or has been moved.
+      </p>
+
+      <!-- Navigation buttons -->
+      <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+        <a
+          href="/"
+          class="inline-flex items-center justify-center rounded-lg bg-accent-500 text-bg-primary px-5 py-2.5 text-sm font-medium hover:bg-accent-400 transition-colors btn-glow"
+        >
+          Go Home
+        </a>
+        <a
+          href="/projects/"
+          class="inline-flex items-center justify-center rounded-lg border border-border text-text-secondary px-5 py-2.5 text-sm font-medium hover:text-text-primary hover:border-border-hover transition-colors"
+        >
+          Projects
+        </a>
+        <a
+          href="/blog/"
+          class="inline-flex items-center justify-center rounded-lg border border-border text-text-secondary px-5 py-2.5 text-sm font-medium hover:text-text-primary hover:border-border-hover transition-colors"
+        >
+          Blog
+        </a>
+        <a
+          href="/about/"
+          class="inline-flex items-center justify-center rounded-lg border border-border text-text-secondary px-5 py-2.5 text-sm font-medium hover:text-text-primary hover:border-border-hover transition-colors"
+        >
+          About
+        </a>
+      </div>
+    </div>
+  </Section>
+</BaseLayout>

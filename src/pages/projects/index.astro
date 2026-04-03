@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '../../components/Section.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import { getCollection } from 'astro:content';
+
+const projects = (await getCollection('projects'))
+  .sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime());
+---
+
+<BaseLayout
+  title="Projects | Gustav Jes Iversen"
+  description="Open source projects and tools built by Gustav Jes Iversen -- AI agents, ML pipelines, and cloud infrastructure."
+>
+  <Section>
+    <div class="animate-in">
+      <h1 class="font-sans text-3xl sm:text-5xl font-bold tracking-tight">Projects</h1>
+      <p class="mt-4 text-lg text-text-secondary max-w-2xl leading-relaxed">
+        A collection of things I have built -- from AI agents and ML pipelines to developer tooling and web applications.
+      </p>
+    </div>
+  </Section>
+
+  <Section bg="secondary">
+    {projects.length > 0 ? (
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        {projects.map((project) => (
+          <ProjectCard project={project} />
+        ))}
+      </div>
+    ) : (
+      <p class="text-text-muted text-center py-12">No projects yet. Check back soon.</p>
+    )}
+  </Section>
+</BaseLayout>
