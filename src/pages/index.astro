@@ -22,7 +22,7 @@ const jsonLd = {
   jobTitle: 'Developer & AI Engineer',
   url: 'https://gustaviversen.dev',
   sameAs: [
-    'https://github.com/gustaviversen',
+    'https://github.com/Gustavjiversen01',
     'https://www.linkedin.com/in/gustav-jes-iversen-663641218/',
   ],
 };
@@ -68,28 +68,82 @@ const jsonLd = {
           </div>
         </div>
 
-        <!-- Right column: Terminal -->
+        <!-- Right column: Neural network diagram (left-to-right) -->
         <div class="hidden md:block">
-          <div class="rounded-xl border border-border bg-bg-elevated p-5 font-mono text-sm">
-            <div class="flex items-center gap-2 mb-4">
-              <div class="w-2.5 h-2.5 rounded-full bg-red-500/60"></div>
-              <div class="w-2.5 h-2.5 rounded-full bg-yellow-500/60"></div>
-              <div class="w-2.5 h-2.5 rounded-full bg-green-500/60"></div>
-              <span class="ml-auto text-[11px] text-text-muted">terminal</span>
-            </div>
-            <div class="space-y-1.5 text-xs leading-relaxed">
-              <p class="text-accent-400">~/projects</p>
-              <p><span class="text-accent-400">$</span> <span class="text-text-secondary">claude code --resume</span></p>
-              <p class="text-text-muted">&nbsp; Resuming: haven-intelligence-dk</p>
-              <p class="text-text-muted">&nbsp; [agent] Deploying ML pipeline to Azure</p>
-              <p class="text-text-muted">&nbsp; <span class="text-green-400">[done]</span> 4 files updated</p>
-              <p>&nbsp;</p>
-              <p class="text-accent-400">~/dotfiles</p>
-              <p><span class="text-accent-400">$</span> <span class="text-text-secondary">git log --oneline -3</span></p>
-              <p class="text-text-muted">&nbsp; a3f1bc2 update neovim lsp config</p>
-              <p class="text-text-muted">&nbsp; 7e2d890 add claude code keybindings</p>
-              <p class="text-text-muted">&nbsp; f4c913a zsh alias for ssh tunneling</p>
-            </div>
+          <div class="relative w-full max-w-md mx-auto" style="aspect-ratio: 5/4;">
+            <svg viewBox="0 0 500 400" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+              <defs>
+                <linearGradient id="conn-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="var(--color-accent-400)" />
+                  <stop offset="100%" stop-color="var(--color-secondary-400)" />
+                </linearGradient>
+              </defs>
+
+              {/* Layer x-positions: input=60, hidden1=190, hidden2=320, output=450 */}
+              {/* All layers centered vertically around y=200 */}
+
+              {/* Input (3) -> Hidden 1 (5) */}
+              {[120, 200, 280].flatMap((y1) =>
+                [60, 130, 200, 270, 340].map((y2) => (
+                  <line x1="60" y1={y1} x2="190" y2={y2} stroke="url(#conn-grad)" stroke-width="0.7" opacity="0.12" />
+                ))
+              )}
+
+              {/* Hidden 1 (5) -> Hidden 2 (5) */}
+              {[60, 130, 200, 270, 340].flatMap((y1) =>
+                [60, 130, 200, 270, 340].map((y2) => (
+                  <line x1="190" y1={y1} x2="320" y2={y2} stroke="url(#conn-grad)" stroke-width="0.7" opacity="0.12" />
+                ))
+              )}
+
+              {/* Hidden 2 (5) -> Output (2) */}
+              {[60, 130, 200, 270, 340].flatMap((y1) =>
+                [155, 245].map((y2) => (
+                  <line x1="320" y1={y1} x2="450" y2={y2} stroke="url(#conn-grad)" stroke-width="0.7" opacity="0.12" />
+                ))
+              )}
+
+              {/* Input layer - 3 nodes, evenly spaced */}
+              {[120, 200, 280].map((y) => (
+                <g>
+                  <circle cx="60" cy={y} r="16" fill="var(--color-accent-500)" opacity="0.06" />
+                  <circle cx="60" cy={y} r="7" fill="var(--color-accent-400)" opacity="0.85" />
+                </g>
+              ))}
+
+              {/* Hidden layer 1 - 5 nodes */}
+              {[60, 130, 200, 270, 340].map((y) => (
+                <g>
+                  <circle cx="190" cy={y} r="14" fill="var(--color-accent-500)" opacity="0.05" />
+                  <circle cx="190" cy={y} r={y === 200 ? 7 : 5.5} fill="var(--color-accent-400)" opacity={y === 200 ? 0.9 : 0.7} />
+                </g>
+              ))}
+
+              {/* Hidden layer 2 - 5 nodes */}
+              {[60, 130, 200, 270, 340].map((y) => (
+                <g>
+                  <circle cx="320" cy={y} r="14" fill="var(--color-secondary-500)" opacity="0.05" />
+                  <circle cx="320" cy={y} r={y === 200 ? 7 : 5.5} fill="var(--color-secondary-400)" opacity={y === 200 ? 0.9 : 0.7} />
+                </g>
+              ))}
+
+              {/* Output layer - 2 nodes, symmetric */}
+              {[155, 245].map((y) => (
+                <g>
+                  <circle cx="450" cy={y} r="16" fill="var(--color-accent-500)" opacity="0.06" />
+                  <circle cx="450" cy={y} r="7" fill="var(--color-accent-400)" opacity="0.85" />
+                </g>
+              ))}
+
+              {/* Layer labels at top */}
+              <text x="60" y="28" text-anchor="middle" fill="var(--color-text-muted)" font-size="9" font-family="var(--font-sans)" letter-spacing="0.08em" opacity="0.5">INPUT</text>
+              <text x="190" y="28" text-anchor="middle" fill="var(--color-text-muted)" font-size="9" font-family="var(--font-sans)" letter-spacing="0.08em" opacity="0.5">HIDDEN</text>
+              <text x="320" y="28" text-anchor="middle" fill="var(--color-text-muted)" font-size="9" font-family="var(--font-sans)" letter-spacing="0.08em" opacity="0.5">HIDDEN</text>
+              <text x="450" y="28" text-anchor="middle" fill="var(--color-text-muted)" font-size="9" font-family="var(--font-sans)" letter-spacing="0.08em" opacity="0.5">OUTPUT</text>
+            </svg>
+
+            <!-- Ambient glow -->
+            <div class="absolute inset-0 bg-accent-500/[0.03] blur-[80px] rounded-full"></div>
           </div>
         </div>
       </div>
@@ -100,7 +154,7 @@ const jsonLd = {
   <Section bg="primary">
     <div class="animate-in">
       <p class="max-w-2xl text-text-secondary leading-relaxed">
-        I focus on the intersection of software engineering and artificial intelligence -- building
+        I focus on the intersection of software engineering and artificial intelligence, building
         autonomous agents, ML pipelines, and the cloud infrastructure that powers them. Always
         looking for the next hard problem to solve.
       </p>

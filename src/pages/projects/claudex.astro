@@ -1,0 +1,253 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '../../components/Section.astro';
+import TagList from '../../components/TagList.astro';
+import ExpandableSection from '../../components/ExpandableSection.astro';
+import CodeTabs from '../../components/CodeTabs.astro';
+import TerminalReplay from '../../components/TerminalReplay.astro';
+
+const tags = ["Python", "Claude Code", "OpenAI Codex", "AI Agents", "Pydantic", "Textual TUI"];
+const repo = "https://github.com/Gustavjiversen01/claudex";
+
+const terminalLines = [
+  { prefix: "$ ", text: "claudex start \"Add input validation\"", color: "#e4be5a" },
+  { prefix: "[session] ", text: "Starting session abc123" },
+  { prefix: "[plan]    ", text: "Generating implementation plan...", color: "#d4a843" },
+  { prefix: "[plan]    ", text: "Plan ready: 3 phases, 12 steps", color: "#d4a843" },
+  { prefix: "[review]  ", text: "Reviewing plan (iteration 1/3)...", color: "#c2956a" },
+  { prefix: "[review]  ", text: "Found 2 issues (1 high, 1 medium)", color: "#c2956a" },
+  { prefix: "[revise]  ", text: "Revising plan...", color: "#8b8b93" },
+  { prefix: "[review]  ", text: "Reviewing plan (iteration 2/3)...", color: "#c2956a" },
+  { prefix: "[review]  ", text: "All issues resolved. Plan approved.", color: "#c2956a" },
+  { prefix: "[impl]    ", text: "Phase 1/3: Input validation layer", color: "#4ade80" },
+  { prefix: "[impl]    ", text: "Phase 1 complete. Reviewing diff...", color: "#4ade80" },
+  { prefix: "[review]  ", text: "Phase 1 approved.", color: "#c2956a" },
+];
+---
+
+<BaseLayout
+  title="Claudex: Dual-Agent Code Orchestrator | Gustav Jes Iversen"
+  description="Two AI coding agents in a structured review loop, orchestrated by Python that never trusts an LLM's self-reported counts. Plan, review, revise, implement, with deterministic quality gates at every step."
+>
+
+  <!-- Section 1: Hero -->
+  <Section class="pt-8">
+    <div class="animate-in">
+      <a
+        href="/projects/"
+        class="inline-flex items-center text-sm text-text-muted hover:text-accent-400 transition-colors mb-8"
+      >
+        <svg class="w-4 h-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+        </svg>
+        Back to projects
+      </a>
+
+      <TagList tags={tags} />
+
+      <h1 class="mt-6 font-sans text-3xl sm:text-5xl font-bold tracking-tight">Claudex</h1>
+      <p class="mt-3 text-lg sm:text-xl text-accent-400 font-medium">Two agents. One loop. Better code.</p>
+
+      <p class="mt-6 text-text-secondary max-w-2xl leading-relaxed">
+        Claude Code and OpenAI Codex are both excellent at writing code, but they are even better when they check each other's work. Claudex combines their powers in a structured loop: one agent plans and implements, the other reviews and challenges every decision. Having two models hold each other accountable in an automated cycle produces significantly better code than either one working alone. Python orchestrates the entire loop, so no quality-gate logic is ever delegated to an LLM.
+      </p>
+
+      <div class="mt-8">
+        <a
+          href={repo}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-glow inline-flex items-center justify-center bg-accent-500 text-bg-primary rounded-lg px-5 py-2.5 text-sm font-medium hover:bg-accent-400 transition-colors"
+        >
+          <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+          </svg>
+          Repository
+        </a>
+      </div>
+
+      <!-- Loop flow diagram -->
+      <div class="mt-12">
+        <svg viewBox="0 0 820 140" class="w-full max-w-3xl" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Claudex workflow: Plan, Review, Revise, Implement, Phase Review with a loop-back from Revise to Plan when below threshold">
+          <!-- Plan node (gold) -->
+          <rect x="10" y="40" width="120" height="50" rx="10" fill="#d4a843" />
+          <text x="70" y="70" text-anchor="middle" fill="#0d0d12" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="600">Plan</text>
+
+          <!-- Arrow Plan -> Review -->
+          <line x1="130" y1="65" x2="170" y2="65" stroke="#a1a1aa" stroke-width="1.5" marker-end="url(#arrowhead)" />
+
+          <!-- Review node (bronze) -->
+          <rect x="170" y="40" width="120" height="50" rx="10" fill="#c2956a" />
+          <text x="230" y="70" text-anchor="middle" fill="#0d0d12" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="600">Review</text>
+
+          <!-- Arrow Review -> Revise -->
+          <line x1="290" y1="65" x2="330" y2="65" stroke="#a1a1aa" stroke-width="1.5" marker-end="url(#arrowhead)" />
+
+          <!-- Revise node (neutral) -->
+          <rect x="330" y="40" width="120" height="50" rx="10" fill="#1a1a1f" stroke="#a1a1aa" stroke-width="1" />
+          <text x="390" y="70" text-anchor="middle" fill="#fafafa" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="600">Revise</text>
+
+          <!-- Arrow Revise -> Implement -->
+          <line x1="450" y1="65" x2="490" y2="65" stroke="#a1a1aa" stroke-width="1.5" marker-end="url(#arrowhead)" />
+
+          <!-- Implement node (gold) -->
+          <rect x="490" y="40" width="140" height="50" rx="10" fill="#d4a843" />
+          <text x="560" y="70" text-anchor="middle" fill="#0d0d12" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="600">Implement</text>
+
+          <!-- Arrow Implement -> Phase Review -->
+          <line x1="630" y1="65" x2="670" y2="65" stroke="#a1a1aa" stroke-width="1.5" marker-end="url(#arrowhead)" />
+
+          <!-- Phase Review node (bronze) -->
+          <rect x="670" y="40" width="140" height="50" rx="10" fill="#c2956a" />
+          <text x="740" y="70" text-anchor="middle" fill="#0d0d12" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="600">Phase Review</text>
+
+          <!-- Dashed loop-back arrow from Revise back to Plan -->
+          <path d="M 390 90 L 390 120 Q 390 130 380 130 L 80 130 Q 70 130 70 120 L 70 90" fill="none" stroke="#8b8b93" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#arrowhead-muted)" />
+          <text x="230" y="126" text-anchor="middle" fill="#8b8b93" font-family="Inter, system-ui, sans-serif" font-size="11" font-style="italic">below threshold</text>
+
+          <!-- Arrowhead markers -->
+          <defs>
+            <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+              <polygon points="0 0, 8 3, 0 6" fill="#a1a1aa" />
+            </marker>
+            <marker id="arrowhead-muted" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+              <polygon points="0 0, 8 3, 0 6" fill="#8b8b93" />
+            </marker>
+          </defs>
+        </svg>
+      </div>
+    </div>
+  </Section>
+
+  <!-- Section 2: The trust boundary -->
+  <Section bg="secondary">
+    <div class="animate-in">
+      <h2 class="font-sans text-2xl sm:text-3xl font-bold tracking-tight">The trust boundary</h2>
+
+      <blockquote class="mt-8 border-l-2 border-accent-500 pl-6 py-2 font-serif italic text-text-secondary text-lg leading-relaxed max-w-3xl">
+        LLMs generate plans and reviews. Python handles all control flow: counting, thresholds,
+        convergence detection, and checkpointing. The orchestrator never asks an agent "are we done?"
+        It counts.
+      </blockquote>
+
+      <div class="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <!-- Planner / Implementer card -->
+        <div class="card-glow rounded-xl p-6 border-t-2 border-t-accent-500">
+          <div class="flex items-center gap-3 mb-4">
+            <svg class="w-6 h-6 text-accent-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+            </svg>
+            <h3 class="font-sans text-lg font-bold tracking-tight text-text-primary">Planner / Implementer</h3>
+          </div>
+          <p class="text-sm text-text-secondary leading-relaxed">
+            Generates structured plans, addresses review findings, implements approved phases.
+          </p>
+        </div>
+
+        <!-- Reviewer / Challenger card -->
+        <div class="card-glow rounded-xl p-6 border-t-2 border-t-secondary-500">
+          <div class="flex items-center gap-3 mb-4">
+            <svg class="w-6 h-6 text-secondary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+            </svg>
+            <h3 class="font-sans text-lg font-bold tracking-tight text-text-primary">Reviewer / Challenger</h3>
+          </div>
+          <p class="text-sm text-text-secondary leading-relaxed">
+            Finds issues, ranks severity, verifies fixes, reviews phase diffs.
+          </p>
+        </div>
+      </div>
+
+      <p class="mt-8 text-sm text-text-secondary leading-relaxed max-w-2xl">
+        Roles are configurable. Assign planner, reviewer, implementer, and implementation reviewer
+        independently to either Claude or Codex.
+      </p>
+    </div>
+  </Section>
+
+  <!-- Section 3: Terminal Replay -->
+  <Section>
+    <div class="animate-in">
+      <h2 class="font-sans text-2xl sm:text-3xl font-bold tracking-tight">See it run</h2>
+      <div class="mt-8">
+        <TerminalReplay lines={terminalLines} />
+      </div>
+    </div>
+  </Section>
+
+  <!-- Section 4: Three Modes -->
+  <Section bg="secondary">
+    <div class="animate-in">
+      <h2 class="font-sans text-2xl sm:text-3xl font-bold tracking-tight">Three ways to run it</h2>
+      <div class="mt-8">
+        <CodeTabs tabs={["tmux", "Dashboard", "Headless"]}>
+          <div role="tabpanel" data-tab-index="0">
+            <pre class="rounded-lg bg-bg-elevated border border-border p-4 font-mono text-sm text-accent-300 overflow-x-auto"><code>claudex start "Add JWT auth"</code></pre>
+            <p class="mt-4 text-sm text-text-secondary leading-relaxed">
+              Real-time 3-pane tmux session with both agents streaming side by side.
+              Subprocess-driven fusion loop with live pane display. This is the default
+              mode for day-to-day use.
+            </p>
+          </div>
+          <div role="tabpanel" data-tab-index="1" hidden>
+            <pre class="rounded-lg bg-bg-elevated border border-border p-4 font-mono text-sm text-accent-300 overflow-x-auto"><code>claudex start --no-tmux "Add JWT auth"</code></pre>
+            <p class="mt-4 text-sm text-text-secondary leading-relaxed">
+              Textual TUI with inline agent panes, interactive issue triage, and session
+              resume. Works in any terminal, no tmux required. Best for interactive
+              triage and resuming previous sessions.
+            </p>
+          </div>
+          <div role="tabpanel" data-tab-index="2" hidden>
+            <pre class="rounded-lg bg-bg-elevated border border-border p-4 font-mono text-sm text-accent-300 overflow-x-auto"><code>claudex plan "Add JWT auth"</code></pre>
+            <p class="mt-4 text-sm text-text-secondary leading-relaxed">
+              Pure stdout, no TUI. Runs the full plan-review-revise loop and exits when
+              the stop policy is met. Built for CI pipelines, scripts, and unattended runs.
+            </p>
+          </div>
+        </CodeTabs>
+      </div>
+    </div>
+  </Section>
+
+  <!-- Section 5: Technical depth -->
+  <Section>
+    <div class="animate-in">
+      <h2 class="font-sans text-2xl sm:text-3xl font-bold tracking-tight">How it works</h2>
+      <div class="mt-8 space-y-4">
+        <ExpandableSection summary="Quality tracking">
+          <p>
+            Every issue gets a canonical ID via <code class="text-accent-300">sha256(step_id:category:title)[:8]</code>,
+            making tracking deterministic and iteration-independent. Fuzzy Levenshtein matching carries
+            issues forward across plan revisions even when titles drift. Weighted convergence scoring
+            (Critical=16, High=8, Medium=2, Low=1) detects stalls and oscillation. Bounce counting
+            flags deadlocked review loops. Regressions (previously resolved issues that reappear)
+            automatically block the quality gate.
+          </p>
+        </ExpandableSection>
+
+        <ExpandableSection summary="Phase-by-phase implementation">
+          <p>
+            After plan approval, implementation proceeds one phase at a time. Git tree-object baselines
+            are stored as hidden refs (<code class="text-accent-300">refs/ccf/&lt;session&gt;/phase-N</code>),
+            enabling precise per-phase diffs without polluting commit history. A scope enforcement
+            setting (warn / strict / ignore) flags out-of-scope file changes during phase review.
+          </p>
+        </ExpandableSection>
+
+        <ExpandableSection summary="Session persistence">
+          <p>
+            Full artifact checkpointing preserves plans, reviews, transcripts, phase baselines, and
+            config snapshots in <code class="text-accent-300">.ccf/sessions/</code>. Crash recovery
+            cleans stale state and lockfiles automatically. Resume any session
+            with <code class="text-accent-300">claudex start --session latest</code>.
+          </p>
+        </ExpandableSection>
+      </div>
+
+      <p class="mt-12 text-center text-lg text-text-muted">
+        433 tests. No quality-gate logic in a prompt.
+      </p>
+    </div>
+  </Section>
+
+</BaseLayout>

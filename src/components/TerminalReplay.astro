@@ -1,0 +1,62 @@
+---
+interface Props {
+  title?: string;
+  lines: Array<{ prefix: string; text: string; color?: string }>;
+}
+
+const { title = 'terminal', lines } = Astro.props;
+---
+
+<div class="terminal-replay rounded-xl border border-border bg-bg-elevated overflow-hidden">
+  <div class="flex items-center gap-2 px-4 py-3 border-b border-border bg-bg-secondary">
+    <div class="h-2.5 w-2.5 rounded-full bg-red-500/60"></div>
+    <div class="h-2.5 w-2.5 rounded-full bg-yellow-500/60"></div>
+    <div class="h-2.5 w-2.5 rounded-full bg-green-500/60"></div>
+    <span class="ml-auto text-[11px] text-text-muted font-mono">{title}</span>
+  </div>
+  <div class="p-5 font-mono text-xs leading-relaxed overflow-x-auto">
+    {lines.map((line, i) => (
+      <p
+        class="terminal-line whitespace-pre"
+        data-line-index={i}
+        style={`opacity: 0; ${line.color ? `--line-color: ${line.color}` : ''}`}
+      >
+        {line.prefix && (
+          <span class="text-text-muted" style={line.color ? `color: var(--line-color)` : ''}>{line.prefix}</span>
+        )}
+        <span class="text-text-secondary">{line.text}</span>
+      </p>
+    ))}
+  </div>
+</div>
+
+<script>
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  document.querySelectorAll('.terminal-replay').forEach((terminal) => {
+    const lines = terminal.querySelectorAll('.terminal-line') as NodeListOf<HTMLElement>;
+
+    if (reducedMotion) {
+      lines.forEach((l) => (l.style.opacity = '1'));
+      return;
+    }
+
+    let revealed = false;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !revealed) {
+          revealed = true;
+          observer.disconnect();
+          lines.forEach((line, i) => {
+            setTimeout(() => {
+              line.style.transition = 'opacity 0.15s ease';
+              line.style.opacity = '1';
+            }, i * 100);
+          });
+        }
+      },
+      { threshold: 0.3 }
+    );
+    observer.observe(terminal);
+  });
+</script>

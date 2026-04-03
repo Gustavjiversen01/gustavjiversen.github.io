@@ -1,0 +1,357 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '../../components/Section.astro';
+import TagList from '../../components/TagList.astro';
+import TerminalReplay from '../../components/TerminalReplay.astro';
+
+const title = "Two Agents, More Tokens, Better Code";
+const description = "How pairing Claude Code and Codex in an automated review loop applies test-time compute scaling to produce better code than either model alone.";
+const publishDate = "2026-03-20";
+const tags = ["AI Agents", "Claude Code", "OpenAI Codex", "ML"];
+const repo = "https://github.com/Gustavjiversen01/claudex";
+
+const readingTime = 6;
+const formattedDate = "Mar 20, 2026";
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: title,
+  datePublished: `${publishDate}T00:00:00.000Z`,
+  author: {
+    '@type': 'Person',
+    name: 'Gustav Jes Iversen',
+  },
+  description,
+};
+
+const terminalLines = [
+  { prefix: "$ ", text: "claudex start \"Add input validation\"", color: "#e4be5a" },
+  { prefix: "[session] ", text: "Starting session abc123" },
+  { prefix: "[plan]    ", text: "Generating implementation plan...", color: "#d4a843" },
+  { prefix: "[plan]    ", text: "Plan ready: 3 phases, 12 steps", color: "#d4a843" },
+  { prefix: "[review]  ", text: "Reviewing plan (iteration 1/3)...", color: "#c2956a" },
+  { prefix: "[review]  ", text: "Found 2 issues (1 high, 1 medium)", color: "#c2956a" },
+  { prefix: "[revise]  ", text: "Revising plan...", color: "#8b8b93" },
+  { prefix: "[review]  ", text: "Reviewing plan (iteration 2/3)...", color: "#c2956a" },
+  { prefix: "[review]  ", text: "All issues resolved. Plan approved.", color: "#c2956a" },
+  { prefix: "[impl]    ", text: "Phase 1/3: Input validation layer", color: "#4ade80" },
+  { prefix: "[impl]    ", text: "Phase 1 complete. Reviewing diff...", color: "#4ade80" },
+  { prefix: "[review]  ", text: "Phase 1 approved.", color: "#c2956a" },
+];
+---
+
+<BaseLayout
+  title={`${title} | Gustav Jes Iversen`}
+  description={description}
+  ogType="article"
+  jsonLd={jsonLd}
+>
+
+  <!-- Header area -->
+  <Section class="pt-8">
+    <div class="animate-in">
+      <a
+        href="/blog/"
+        class="inline-flex items-center text-sm text-text-muted hover:text-accent-400 transition-colors"
+      >
+        <svg class="w-4 h-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+        </svg>
+        Back to blog
+      </a>
+
+      <div class="flex items-center gap-3 text-xs font-medium uppercase tracking-[0.1em] text-text-muted mt-6 mb-4">
+        <time datetime={publishDate}>{formattedDate}</time>
+        <span aria-hidden="true">&middot;</span>
+        <span>{readingTime} min read</span>
+      </div>
+
+      <h1 class="font-sans text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-text-primary">{title}</h1>
+
+      <div class="mt-4">
+        <TagList tags={tags} />
+      </div>
+
+      <p class="mt-8 text-lg text-text-secondary leading-relaxed max-w-3xl">
+        How pairing Claude Code and Codex in an automated review loop applies test-time compute scaling to produce better code than either model alone.
+      </p>
+    </div>
+  </Section>
+
+  <!-- Body content -->
+  <Section bg="secondary">
+    <div class="animate-in max-w-3xl">
+      <p class="text-text-secondary leading-relaxed">
+        There is a simple observation in ML research that has become hard to ignore: spending more compute at inference time makes models produce better outputs. The concept is called test-time compute scaling, and it shows up everywhere from chain-of-thought prompting to repeated sampling with verification. The core idea is straightforward. If you give a model more tokens to think through a problem, the quality of its answer goes up. Not always linearly, not always predictably, but consistently enough that it has become a real lever for improving results.
+      </p>
+
+      <p class="mt-6 text-text-secondary leading-relaxed">
+        I have been building <a href={repo} class="text-accent-400 hover:text-accent-300 transition-colors">Claudex</a>, a dual-agent code orchestrator that pairs Claude Code and OpenAI Codex in a structured review loop. The project started as a way to automate a workflow I was already doing manually: have one agent write a plan, have another agent tear it apart, revise, repeat. But as I built it, I realized the system is fundamentally an application of test-time compute scaling. Two agents working the same problem means roughly double the tokens applied to it, and the iterative loop multiplies that further.
+      </p>
+
+      <h2 class="mt-14 font-sans text-2xl sm:text-3xl font-bold tracking-tight text-text-primary">Why a second agent changes the math</h2>
+
+      <p class="mt-6 text-text-secondary leading-relaxed">
+        When a single agent plans something and then reviews its own work, it tends to have blind spots. It made the plan. It has internalized its own assumptions. Asking it to critique itself is like asking someone to proofread their own essay right after writing it. They will miss things.
+      </p>
+
+      <p class="mt-6 text-text-secondary leading-relaxed">
+        A second agent brings genuinely fresh context. It has not seen the intermediate reasoning that led to the plan. It does not share the same failure modes. When Codex reviews a plan that Claude Code generated (or vice versa), the review applies adversarial pressure that self-review cannot replicate. Different training data, different architectural biases, different tendencies. That diversity is the point.
+      </p>
+
+      <p class="mt-6 text-text-secondary leading-relaxed">
+        But there is also a pure compute argument. Consider what happens in a three-iteration plan review loop. The planner generates the initial plan (one full inference pass). The reviewer analyzes it and produces severity-ranked issues (second pass). The planner revises to address those issues (third pass). The reviewer verifies the fixes and checks for regressions (fourth pass). The planner revises again (fifth pass). The reviewer does a final check (sixth pass). That is six full inference passes applied to the same planning problem. Compare that to a single agent generating a plan in one shot. The multi-agent loop spends roughly 6x the token budget, and each pass adds new information that the previous passes did not have.
+      </p>
+
+      <p class="mt-6 text-text-secondary leading-relaxed">
+        This is test-time compute scaling in practice. Not through a single model thinking longer, but through multiple models iterating on each other's outputs.
+      </p>
+    </div>
+
+    <!-- Token math diagram -->
+    <div class="mt-12 max-w-3xl">
+      <p class="text-xs font-medium uppercase tracking-[0.1em] text-text-muted mb-4">Iteration multiplier</p>
+      <div class="rounded-xl border border-border bg-bg-elevated p-6 space-y-6">
+        <!-- Single pass -->
+        <div>
+          <p class="text-sm text-text-secondary mb-2 font-medium">Single pass</p>
+          <div class="flex items-center gap-2">
+            <div class="h-10 rounded-lg flex items-center justify-center px-4 text-xs font-semibold text-bg-primary" style="background: #d4a843; min-width: 80px;">
+              Plan
+            </div>
+            <span class="text-xs text-text-muted font-mono ml-2">1x tokens</span>
+          </div>
+        </div>
+
+        <!-- 3-iteration loop -->
+        <div>
+          <p class="text-sm text-text-secondary mb-2 font-medium">3-iteration loop</p>
+          <div class="flex flex-wrap items-center gap-2">
+            <div class="h-10 rounded-lg flex items-center justify-center px-4 text-xs font-semibold text-bg-primary" style="background: #d4a843; min-width: 64px;">
+              Plan
+            </div>
+            <div class="h-10 rounded-lg flex items-center justify-center px-4 text-xs font-semibold text-bg-primary" style="background: #c2956a; min-width: 64px;">
+              Review
+            </div>
+            <div class="h-10 rounded-lg flex items-center justify-center px-4 text-xs font-semibold text-bg-primary" style="background: #d4a843; min-width: 64px;">
+              Revise
+            </div>
+            <div class="h-10 rounded-lg flex items-center justify-center px-4 text-xs font-semibold text-bg-primary" style="background: #c2956a; min-width: 64px;">
+              Review
+            </div>
+            <div class="h-10 rounded-lg flex items-center justify-center px-4 text-xs font-semibold text-bg-primary" style="background: #d4a843; min-width: 64px;">
+              Revise
+            </div>
+            <div class="h-10 rounded-lg flex items-center justify-center px-4 text-xs font-semibold text-bg-primary" style="background: #c2956a; min-width: 64px;">
+              Review
+            </div>
+            <span class="text-xs text-text-muted font-mono ml-2">6x tokens</span>
+          </div>
+        </div>
+
+        <!-- Legend -->
+        <div class="flex items-center gap-4 pt-2 border-t border-border">
+          <div class="flex items-center gap-2">
+            <div class="w-3 h-3 rounded-sm" style="background: #d4a843;"></div>
+            <span class="text-xs text-text-muted">Planner passes</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="w-3 h-3 rounded-sm" style="background: #c2956a;"></div>
+            <span class="text-xs text-text-muted">Reviewer passes</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <!-- The orchestrator must be deterministic -->
+  <Section>
+    <div class="animate-in max-w-3xl">
+      <h2 class="font-sans text-2xl sm:text-3xl font-bold tracking-tight text-text-primary">The orchestrator must be deterministic</h2>
+
+      <p class="mt-6 text-text-secondary leading-relaxed">
+        Here is where things get interesting from an engineering perspective. If you let LLMs control the loop, you lose the scaling benefits. An LLM that decides "we are done" after one iteration because it thinks the plan looks good enough has just short-circuited the entire compute budget you intended to spend.
+      </p>
+
+      <p class="mt-6 text-text-secondary leading-relaxed">
+        In Claudex, Python owns all control flow. The <code class="text-accent-300">FusionController</code> manages loop state, and the <code class="text-accent-300">IssueTracker</code> independently computes severity counts from the issue ledger. When the reviewer returns findings, the orchestrator does not ask the reviewer "is this good enough?" It counts. Critical issues, high severity issues, medium and low combined. It checks those counts against configured thresholds:
+      </p>
+    </div>
+
+    <!-- YAML config block -->
+    <div class="mt-8 max-w-3xl">
+      <div class="rounded-xl border border-border bg-bg-elevated p-6">
+        <p class="text-xs font-medium text-text-muted mb-3 uppercase tracking-[0.1em]">claudex-config.yaml</p>
+        <pre class="font-mono text-sm text-accent-300 leading-relaxed"><code>thresholds:
+  critical: 0
+  high: 0
+  medium_low: 4
+  block_on_regressions: true</code></pre>
+      </div>
+    </div>
+
+    <div class="animate-in max-w-3xl">
+      <p class="mt-8 text-text-secondary leading-relaxed">
+        The <code class="text-accent-300">meets_threshold</code> function is pure Python arithmetic. No probability involved. The convergence detection uses weighted scoring across iteration snapshots (Critical=16, High=8, Medium=2, Low=1) and requires at least three data points before declaring that progress has stalled. Regression tracking flags previously resolved issues that reappear, automatically blocking the quality gate. These are operations that should never be probabilistic. Counting is not a language task. Comparing two integers is not a language task. Detecting that a score trend has flattened across three iterations is not a language task. Delegating these to an LLM introduces failure modes that have no business existing.
+      </p>
+
+      <p class="mt-6 text-text-secondary leading-relaxed">
+        This is the key design principle: LLMs generate content (plans, reviews, code). Deterministic code handles all decisions about whether that content is good enough.
+      </p>
+    </div>
+  </Section>
+
+  <!-- What actually improves -->
+  <Section bg="secondary">
+    <div class="animate-in max-w-3xl">
+      <h2 class="font-sans text-2xl sm:text-3xl font-bold tracking-tight text-text-primary">What actually improves</h2>
+
+      <p class="mt-6 text-text-secondary leading-relaxed">
+        After building and using this system, the practical improvements fall into a few categories.
+      </p>
+    </div>
+
+    <!-- Feature cards -->
+    <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-3xl">
+      <!-- Architectural Issues -->
+      <div class="border border-border bg-bg-elevated rounded-xl p-5">
+        <div class="flex items-center gap-3 mb-3">
+          <svg class="w-5 h-5 text-accent-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 0h.008v.008h-.008V7.5z" />
+          </svg>
+          <h3 class="font-sans text-sm font-bold tracking-tight text-text-primary">Architectural Issues</h3>
+        </div>
+        <p class="text-sm text-text-secondary leading-relaxed">
+          Catches tight coupling, missing abstraction boundaries, and inconsistent error handling that a planner with sunk-cost bias overlooks.
+        </p>
+      </div>
+
+      <!-- API Mistakes -->
+      <div class="border border-border bg-bg-elevated rounded-xl p-5">
+        <div class="flex items-center gap-3 mb-3">
+          <svg class="w-5 h-5 text-secondary-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" />
+          </svg>
+          <h3 class="font-sans text-sm font-bold tracking-tight text-text-primary">API Mistakes</h3>
+        </div>
+        <p class="text-sm text-text-secondary leading-relaxed">
+          Flags deprecated methods, incorrect parameter types, and missing error cases that a fresh reviewer spots by reading critically.
+        </p>
+      </div>
+
+      <!-- Missing Edge Cases -->
+      <div class="border border-border bg-bg-elevated rounded-xl p-5">
+        <div class="flex items-center gap-3 mb-3">
+          <svg class="w-5 h-5 text-accent-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m0-10.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285zm0 13.036h.008v.008H12v-.008z" />
+          </svg>
+          <h3 class="font-sans text-sm font-bold tracking-tight text-text-primary">Missing Edge Cases</h3>
+        </div>
+        <p class="text-sm text-text-secondary leading-relaxed">
+          The most consistent improvement. Adversarial review reliably surfaces gaps in error handling, boundary conditions, and failure recovery.
+        </p>
+      </div>
+
+      <!-- Scope Creep -->
+      <div class="border border-border bg-bg-elevated rounded-xl p-5">
+        <div class="flex items-center gap-3 mb-3">
+          <svg class="w-5 h-5 text-secondary-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 9l10.5-3m0 6.553v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 11-.99-3.467l2.31-.66a2.25 2.25 0 001.632-2.163zm0 0V2.25L9 5.25v10.303m0 0v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 01-.99-3.467l2.31-.66A2.25 2.25 0 009 15.553z" />
+          </svg>
+          <h3 class="font-sans text-sm font-bold tracking-tight text-text-primary">Scope Creep</h3>
+        </div>
+        <p class="text-sm text-text-secondary leading-relaxed">
+          Tree-object diffs review each phase against the approved plan, flagging files modified outside the stated scope.
+        </p>
+      </div>
+    </div>
+
+    <div class="animate-in max-w-3xl">
+      <p class="mt-8 text-text-secondary leading-relaxed">
+        <strong class="text-text-primary">Architectural issues.</strong> A planner agent working alone will sometimes propose a structure that works but has subtle problems: tight coupling between components, missing abstraction boundaries, inconsistent error handling patterns. A reviewer agent catches these because it is specifically prompted to challenge architectural decisions without the sunk-cost bias of having designed them.
+      </p>
+
+      <p class="mt-6 text-text-secondary leading-relaxed">
+        <strong class="text-text-primary">API and integration mistakes.</strong> When a plan involves calling external APIs or using library features, the planner occasionally gets details wrong. Deprecated methods, incorrect parameter types, missing error cases. The reviewer, approaching the plan fresh, is more likely to flag these because it is reading the plan critically rather than recalling its own reasoning.
+      </p>
+
+      <p class="mt-6 text-text-secondary leading-relaxed">
+        <strong class="text-text-primary">Missing edge cases.</strong> This is the most consistent improvement. Plans generated in a single pass tend to cover the happy path thoroughly but underspecify error handling, boundary conditions, and failure recovery. The adversarial review process surfaces these gaps reliably.
+      </p>
+
+      <p class="mt-6 text-text-secondary leading-relaxed">
+        <strong class="text-text-primary">Scope creep.</strong> During implementation, Claudex reviews each phase against the approved plan using tree-object diffs. A scope enforcement setting (warn, strict, or ignore) flags files that were modified outside the plan's stated scope. This catches the common failure mode where an agent "helpfully" refactors something adjacent to the task.
+      </p>
+    </div>
+  </Section>
+
+  <!-- The cost trade-off -->
+  <Section>
+    <div class="animate-in max-w-3xl">
+      <h2 class="font-sans text-2xl sm:text-3xl font-bold tracking-tight text-text-primary">The cost trade-off</h2>
+
+      <p class="mt-6 text-text-secondary leading-relaxed">
+        More tokens means more money. A three-iteration review loop on a complex plan can cost several dollars in API calls across both providers. That is meaningfully more than a single-pass approach.
+      </p>
+
+      <p class="mt-6 text-text-secondary leading-relaxed">
+        The honest answer is that this trade-off is worth it for some tasks and not others. For a complex feature that touches authentication, database schema, and API contracts, spending an extra few dollars on thorough planning review is trivially justified. For renaming a variable, it would be absurd.
+      </p>
+
+      <p class="mt-6 text-text-secondary leading-relaxed">
+        Claudex makes this configurable. You can set <code class="text-accent-300">max_iterations: 1</code> for quick tasks or <code class="text-accent-300">max_iterations: 5</code> with strict thresholds for critical work. The cost scales with the compute budget you choose to allocate, which is the whole point of test-time compute scaling: you get to decide how much inference to spend based on how much the outcome matters.
+      </p>
+    </div>
+
+    <!-- Key insight callout -->
+    <div class="mt-10 max-w-3xl">
+      <div class="bg-accent-500/5 border border-accent-500/20 rounded-xl p-6">
+        <p class="text-lg text-text-primary leading-relaxed font-medium">
+          The bugs caught in review would cost hours to debug later.
+        </p>
+      </div>
+    </div>
+  </Section>
+
+  <!-- Where this leads -->
+  <Section bg="secondary">
+    <div class="animate-in max-w-3xl">
+      <h2 class="font-sans text-2xl sm:text-3xl font-bold tracking-tight text-text-primary">Where this leads</h2>
+
+      <p class="mt-6 text-text-secondary leading-relaxed">
+        Multi-agent systems are a natural extension of the inference scaling paradigm. Instead of making a single model think harder (chain-of-thought, tree-of-thought, repeated sampling), you distribute the compute across specialized agents with different roles and different perspectives. The planning agent and the reviewing agent do not need to be the same model, or even from the same provider. Diversity in the agent pool is a feature, not a limitation.
+      </p>
+
+      <p class="mt-6 text-text-secondary leading-relaxed">
+        The more general insight is that orchestration quality determines whether additional compute translates into better outcomes. Spending 6x the tokens on a problem only helps if the loop structure ensures each pass adds real information. A reviewer that rubber-stamps everything wastes the budget. A revision step that ignores findings wastes the budget. The deterministic orchestration layer, the thresholds and convergence checks and regression tracking, exists to make sure every token spent actually contributes to the result.
+      </p>
+    </div>
+
+    <!-- Terminal replay -->
+    <div class="mt-12 max-w-3xl">
+      <TerminalReplay lines={terminalLines} />
+    </div>
+
+    <div class="animate-in max-w-3xl mt-10">
+      <p class="text-text-secondary leading-relaxed">
+        If you are interested in the implementation, Claudex is on GitHub. Two agents, one loop, deterministic quality gates. The tokens do the rest.
+      </p>
+
+      <div class="mt-8">
+        <a
+          href={repo}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-glow inline-flex items-center justify-center bg-accent-500 text-bg-primary rounded-lg px-5 py-2.5 text-sm font-medium hover:bg-accent-400 transition-colors"
+        >
+          <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+          </svg>
+          View on GitHub
+        </a>
+      </div>
+    </div>
+  </Section>
+
+</BaseLayout>

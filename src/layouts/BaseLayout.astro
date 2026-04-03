@@ -54,9 +54,6 @@ const ogImageUrl = new URL(ogImage ?? '/og-default.png', Astro.site).href;
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
-    <!-- RSS -->
-    <link rel="alternate" type="application/rss+xml" title="Gustav Iversen's Blog" href={new URL('/rss.xml', Astro.site).href} />
-
     <!-- JSON-LD -->
     {jsonLd && (
       <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />

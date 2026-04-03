@@ -1,0 +1,462 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '../../components/Section.astro';
+import TagList from '../../components/TagList.astro';
+import CodeTabs from '../../components/CodeTabs.astro';
+
+const title = "Why Local Speech-to-Text Still Matters";
+const description = "Every voice dictation tool I found required a subscription. So I built one that runs Whisper locally, works on any computer, and costs nothing.";
+const publishDate = "2026-04-02";
+const tags = ["AI", "Whisper", "Python", "Open Source"];
+const readingTime = 7;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: title,
+  datePublished: new Date(publishDate).toISOString(),
+  author: {
+    '@type': 'Person',
+    name: 'Gustav Jes Iversen',
+  },
+  description,
+};
+---
+
+<BaseLayout
+  title="Why Local Speech-to-Text Still Matters | Gustav Jes Iversen"
+  description={description}
+  ogType="article"
+  jsonLd={jsonLd}
+>
+  <!-- Header -->
+  <Section class="pt-8">
+    <div class="animate-in">
+      <a href="/blog/" class="text-sm text-accent-400 hover:text-accent-300 transition-colors duration-150">&larr; Back to blog</a>
+
+      <div class="flex items-center gap-3 text-xs font-medium uppercase tracking-[0.1em] text-text-muted mt-6 mb-4">
+        <time datetime={publishDate}>Apr 2, 2026</time>
+        <span aria-hidden="true">&middot;</span>
+        <span>{readingTime} min read</span>
+      </div>
+
+      <h1 class="font-sans text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-text-primary">{title}</h1>
+
+      <div class="mt-4">
+        <TagList tags={tags} />
+      </div>
+
+      <p class="mt-6 text-lg sm:text-xl text-text-secondary leading-relaxed max-w-3xl">
+        {description}
+      </p>
+    </div>
+  </Section>
+
+  <!-- Intro + The subscription trap -->
+  <Section bg="secondary">
+    <div class="animate-in max-w-3xl">
+      <p class="text-text-secondary leading-relaxed mb-5">
+        I wanted to dictate text on my computer. Speak into my microphone, have words appear at the cursor. Simple enough in concept. Every tool I found wanted $5, $10, or $15 a month for the privilege. Not for cloud compute on some difficult task. Just to use my own CPU to turn my own voice into text.
+      </p>
+      <p class="text-text-secondary leading-relaxed mb-5">
+        That felt wrong. So I built <a href="https://github.com/Gustavjiversen01/OSW" class="text-accent-400 hover:text-accent-300 transition-colors">OSW</a> (Open Source Whisper), a free, local voice-to-text tool that runs entirely on your machine.
+      </p>
+      <p class="text-text-secondary leading-relaxed mb-10">
+        But this post is not really about OSW. It is about why local speech recognition is now practical for anyone, and what it took to get here.
+      </p>
+
+      <h2 class="font-sans text-2xl sm:text-3xl font-bold tracking-tight text-text-primary mb-5">The subscription trap</h2>
+      <p class="text-text-secondary leading-relaxed mb-5">
+        Speech-to-text is a solved problem. The models exist, they are open, and they run on consumer hardware. Yet the market is dominated by tools that route your audio through a cloud API and charge monthly for it. Some of them are genuinely using server-side models for quality reasons. Many are not. They are wrapping the same open-source models you could run yourself, adding a subscription layer, and hoping you do not notice.
+      </p>
+      <p class="text-text-secondary leading-relaxed">
+        I am not opposed to paying for software. But recurring payments for something that requires zero ongoing server cost is a pricing model designed to extract money, not reflect actual expense. Once you download a Whisper model, the only resource it consumes is your own electricity.
+      </p>
+    </div>
+
+    <!-- Comparison cards -->
+    <div class="mt-10 max-w-3xl grid grid-cols-1 sm:grid-cols-2 gap-6">
+      <div class="rounded-xl border border-border bg-bg-elevated/50 border-t-2 border-t-red-500/40 p-6">
+        <h3 class="font-sans text-base font-bold text-text-primary mb-4">Cloud Dictation</h3>
+        <ul class="space-y-2.5 text-sm text-text-secondary">
+          <li class="flex items-start gap-2.5">
+            <svg class="w-4 h-4 mt-0.5 shrink-0 text-red-400/70" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+            $5-15/month
+          </li>
+          <li class="flex items-start gap-2.5">
+            <svg class="w-4 h-4 mt-0.5 shrink-0 text-red-400/70" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+            Audio sent to servers
+          </li>
+          <li class="flex items-start gap-2.5">
+            <svg class="w-4 h-4 mt-0.5 shrink-0 text-red-400/70" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+            Requires internet
+          </li>
+          <li class="flex items-start gap-2.5">
+            <svg class="w-4 h-4 mt-0.5 shrink-0 text-red-400/70" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+            Vendor lock-in
+          </li>
+        </ul>
+      </div>
+      <div class="rounded-xl border border-border bg-bg-elevated/50 border-t-2 border-t-accent-500/40 p-6">
+        <h3 class="font-sans text-base font-bold text-text-primary mb-4">Local with OSW</h3>
+        <ul class="space-y-2.5 text-sm text-text-secondary">
+          <li class="flex items-start gap-2.5">
+            <svg class="w-4 h-4 mt-0.5 shrink-0 text-accent-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+            Free, forever
+          </li>
+          <li class="flex items-start gap-2.5">
+            <svg class="w-4 h-4 mt-0.5 shrink-0 text-accent-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+            Audio stays on device
+          </li>
+          <li class="flex items-start gap-2.5">
+            <svg class="w-4 h-4 mt-0.5 shrink-0 text-accent-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+            Works offline
+          </li>
+          <li class="flex items-start gap-2.5">
+            <svg class="w-4 h-4 mt-0.5 shrink-0 text-accent-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+            Open source
+          </li>
+        </ul>
+      </div>
+    </div>
+  </Section>
+
+  <!-- What Whisper changed -->
+  <Section>
+    <div class="animate-in max-w-3xl">
+      <h2 class="font-sans text-2xl sm:text-3xl font-bold tracking-tight text-text-primary mb-5">What Whisper changed</h2>
+      <p class="text-text-secondary leading-relaxed mb-5">
+        In September 2022, OpenAI released Whisper as an open-source model. It was trained on 680,000 hours of multilingual audio, and it was shockingly good. Not "good for an open model." Just good. It handled accents, background noise, and casual speech better than most commercial APIs at the time.
+      </p>
+      <p class="text-text-secondary leading-relaxed mb-5">
+        More importantly, they released the weights. Anyone could download the model and run inference locally. That single decision shifted the entire landscape. Speech-to-text went from "cloud API you rent" to "artifact you own."
+      </p>
+      <p class="text-text-secondary leading-relaxed">
+        The original Whisper implementation was slow, though. Running the large model on CPU was painful. You would speak for five seconds and wait thirty for the transcription. Usable for batch processing, not for interactive dictation.
+      </p>
+    </div>
+  </Section>
+
+  <!-- The faster-whisper ecosystem -->
+  <Section bg="secondary">
+    <div class="animate-in max-w-3xl">
+      <h2 class="font-sans text-2xl sm:text-3xl font-bold tracking-tight text-text-primary mb-5">The faster-whisper ecosystem</h2>
+      <p class="text-text-secondary leading-relaxed mb-5">
+        The breakthrough for local, real-time use came from the community. <a href="https://github.com/OpenNMT/CTranslate2" class="text-accent-400 hover:text-accent-300 transition-colors">CTranslate2</a> is an inference engine optimized for Transformer models. The <a href="https://github.com/SYSTRAN/faster-whisper" class="text-accent-400 hover:text-accent-300 transition-colors">faster-whisper</a> project used it to reimplement Whisper inference with int8 quantization, cutting memory usage and latency dramatically.
+      </p>
+      <p class="text-text-secondary leading-relaxed mb-5">
+        What does int8 quantization actually mean here? The original Whisper models store their weights as 32-bit floating point numbers. Quantization converts those to 8-bit integers, which are cheaper to compute and take up roughly a quarter of the memory. You lose some precision, but for speech recognition the accuracy difference is negligible. A 3 GB model fits comfortably in RAM on any modern machine.
+      </p>
+      <p class="text-text-secondary leading-relaxed mb-5">
+        Then came the distilled models. Researchers at Hugging Face trained smaller versions of Whisper that retain most of the accuracy at a fraction of the size. The distil-medium.en model, for example, weighs about 800 MB and handles English dictation nearly as well as the full large-v3. For most people dictating notes or emails, the difference is imperceptible.
+      </p>
+      <p class="text-text-secondary leading-relaxed">
+        The result: you can run high-quality speech recognition on a laptop with no GPU. Not as a proof of concept. As an everyday tool.
+      </p>
+    </div>
+
+    <!-- Pipeline diagram -->
+    <div class="mt-10 max-w-3xl">
+      <!-- Horizontal (sm+) -->
+      <svg class="hidden sm:block w-full max-w-3xl" viewBox="0 0 780 90" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Audio pipeline: Microphone 16kHz to Audio Buffer to faster-whisper int8 to Text Output">
+        <!-- Node 1: Microphone -->
+        <rect x="0" y="5" width="170" height="80" rx="12" fill="#1a1a1f" stroke="rgba(255,255,255,0.08)" stroke-width="1.5" />
+        <text x="85" y="38" fill="#e4be5a" font-size="13" font-family="Inter, system-ui, sans-serif" font-weight="600" text-anchor="middle">Microphone</text>
+        <text x="85" y="58" fill="#8b8b93" font-size="11" font-family="Inter, system-ui, sans-serif" text-anchor="middle">16 kHz mono</text>
+
+        <!-- Arrow 1-2 -->
+        <line x1="175" y1="45" x2="198" y2="45" stroke="#d4a843" stroke-width="1" />
+        <polyline points="194,41 200,45 194,49" fill="none" stroke="#d4a843" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+
+        <!-- Node 2: Audio Buffer -->
+        <rect x="205" y="5" width="170" height="80" rx="12" fill="#1a1a1f" stroke="rgba(255,255,255,0.08)" stroke-width="1.5" />
+        <text x="290" y="38" fill="#e4be5a" font-size="13" font-family="Inter, system-ui, sans-serif" font-weight="600" text-anchor="middle">Audio Buffer</text>
+        <text x="290" y="58" fill="#8b8b93" font-size="11" font-family="Inter, system-ui, sans-serif" text-anchor="middle">collections.deque</text>
+
+        <!-- Arrow 2-3 -->
+        <line x1="380" y1="45" x2="403" y2="45" stroke="#d4a843" stroke-width="1" />
+        <polyline points="399,41 405,45 399,49" fill="none" stroke="#d4a843" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+
+        <!-- Node 3: faster-whisper -->
+        <rect x="410" y="5" width="170" height="80" rx="12" fill="#1a1a1f" stroke="rgba(255,255,255,0.08)" stroke-width="1.5" />
+        <text x="495" y="38" fill="#e4be5a" font-size="13" font-family="Inter, system-ui, sans-serif" font-weight="600" text-anchor="middle">faster-whisper</text>
+        <text x="495" y="58" fill="#8b8b93" font-size="11" font-family="Inter, system-ui, sans-serif" text-anchor="middle">int8 quantized</text>
+
+        <!-- Arrow 3-4 -->
+        <line x1="585" y1="45" x2="608" y2="45" stroke="#d4a843" stroke-width="1" />
+        <polyline points="604,41 610,45 604,49" fill="none" stroke="#d4a843" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+
+        <!-- Node 4: Text Output -->
+        <rect x="615" y="5" width="160" height="80" rx="12" fill="#1a1a1f" stroke="rgba(255,255,255,0.08)" stroke-width="1.5" />
+        <text x="695" y="38" fill="#e4be5a" font-size="13" font-family="Inter, system-ui, sans-serif" font-weight="600" text-anchor="middle">Text Output</text>
+        <text x="695" y="58" fill="#8b8b93" font-size="11" font-family="Inter, system-ui, sans-serif" text-anchor="middle">at cursor position</text>
+      </svg>
+
+      <!-- Vertical (mobile) -->
+      <svg class="block sm:hidden w-full max-w-[240px] mx-auto" viewBox="0 0 240 500" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Audio pipeline: Microphone 16kHz to Audio Buffer to faster-whisper int8 to Text Output">
+        <!-- Node 1 -->
+        <rect x="10" y="0" width="220" height="70" rx="12" fill="#1a1a1f" stroke="rgba(255,255,255,0.08)" stroke-width="1.5" />
+        <text x="120" y="30" fill="#e4be5a" font-size="13" font-family="Inter, system-ui, sans-serif" font-weight="600" text-anchor="middle">Microphone</text>
+        <text x="120" y="50" fill="#8b8b93" font-size="11" font-family="Inter, system-ui, sans-serif" text-anchor="middle">16 kHz mono</text>
+
+        <!-- Arrow -->
+        <line x1="120" y1="75" x2="120" y2="105" stroke="#d4a843" stroke-width="1" />
+        <polyline points="116,101 120,107 124,101" fill="none" stroke="#d4a843" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+
+        <!-- Node 2 -->
+        <rect x="10" y="112" width="220" height="70" rx="12" fill="#1a1a1f" stroke="rgba(255,255,255,0.08)" stroke-width="1.5" />
+        <text x="120" y="142" fill="#e4be5a" font-size="13" font-family="Inter, system-ui, sans-serif" font-weight="600" text-anchor="middle">Audio Buffer</text>
+        <text x="120" y="162" fill="#8b8b93" font-size="11" font-family="Inter, system-ui, sans-serif" text-anchor="middle">collections.deque</text>
+
+        <!-- Arrow -->
+        <line x1="120" y1="187" x2="120" y2="217" stroke="#d4a843" stroke-width="1" />
+        <polyline points="116,213 120,219 124,213" fill="none" stroke="#d4a843" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+
+        <!-- Node 3 -->
+        <rect x="10" y="224" width="220" height="70" rx="12" fill="#1a1a1f" stroke="rgba(255,255,255,0.08)" stroke-width="1.5" />
+        <text x="120" y="254" fill="#e4be5a" font-size="13" font-family="Inter, system-ui, sans-serif" font-weight="600" text-anchor="middle">faster-whisper</text>
+        <text x="120" y="274" fill="#8b8b93" font-size="11" font-family="Inter, system-ui, sans-serif" text-anchor="middle">int8 quantized</text>
+
+        <!-- Arrow -->
+        <line x1="120" y1="299" x2="120" y2="329" stroke="#d4a843" stroke-width="1" />
+        <polyline points="116,325 120,331 124,325" fill="none" stroke="#d4a843" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+
+        <!-- Node 4 -->
+        <rect x="10" y="336" width="220" height="70" rx="12" fill="#1a1a1f" stroke="rgba(255,255,255,0.08)" stroke-width="1.5" />
+        <text x="120" y="366" fill="#e4be5a" font-size="13" font-family="Inter, system-ui, sans-serif" font-weight="600" text-anchor="middle">Text Output</text>
+        <text x="120" y="386" fill="#8b8b93" font-size="11" font-family="Inter, system-ui, sans-serif" text-anchor="middle">at cursor position</text>
+      </svg>
+    </div>
+  </Section>
+
+  <!-- Building OSW -->
+  <Section>
+    <div class="animate-in max-w-3xl">
+      <h2 class="font-sans text-2xl sm:text-3xl font-bold tracking-tight text-text-primary mb-5">Building OSW</h2>
+      <p class="text-text-secondary leading-relaxed mb-5">
+        When I sat down to build this, I had a few constraints in mind.
+      </p>
+      <p class="text-text-secondary leading-relaxed mb-5">
+        <strong class="text-text-primary font-semibold">It should be invisible.</strong> No main window, no browser tab, no Electron app eating 400 MB of RAM in the background. OSW runs as a system tray icon. A small red dot appears while recording. That is the entire UI during normal use.
+      </p>
+      <p class="text-text-secondary leading-relaxed mb-5">
+        <strong class="text-text-primary font-semibold">It should be instant to invoke.</strong> Press <kbd class="inline-block px-1.5 py-0.5 text-xs font-mono bg-bg-elevated border border-border rounded">Ctrl+Space</kbd>, speak, press it again. The text appears wherever your cursor is. The hotkey is global and configurable. The interaction model is: think, press, speak, press, keep working. No context switching.
+      </p>
+      <p class="text-text-secondary leading-relaxed mb-5">
+        <strong class="text-text-primary font-semibold">It should work with any application.</strong> This was the trickiest part. On Linux, I use <code class="text-accent-300 text-sm">xdotool</code> to simulate keystrokes, which types the transcribed text into whatever window has focus. On Windows and macOS, <code class="text-accent-300 text-sm">pynput</code> handles the same job. The text injection looks like real keyboard input to the receiving application, so it works in terminals, text editors, chat apps, and anywhere else you can type.
+      </p>
+      <p class="text-text-secondary leading-relaxed mb-5">
+        The audio pipeline is straightforward. <code class="text-accent-300 text-sm">sounddevice</code> captures 16 kHz mono audio (the sample rate Whisper expects) and accumulates frames in a <code class="text-accent-300 text-sm">collections.deque</code>. When you stop recording, the buffer is concatenated into a NumPy array and handed to faster-whisper on a background thread. The transcription result comes back as text, gets emitted via a Qt signal to the main thread, and gets injected at the cursor. The whole thing is about 400 lines of Python across five modules.
+      </p>
+      <p class="text-text-secondary leading-relaxed">
+        One design decision I am happy with: lazy model loading. The model does not load at startup. It loads the first time you actually dictate something. If you switch quality tiers in settings, the old model is unloaded and garbage collected before the new one loads. This keeps idle memory usage minimal.
+      </p>
+    </div>
+
+    <!-- Waveform visualization -->
+    <div class="mt-10 max-w-3xl">
+      <div class="osw-waveform-container rounded-2xl border border-border bg-bg-elevated/60 p-6 flex flex-col items-center justify-center min-h-[180px]">
+        <div class="flex items-center gap-3 mb-4 self-start">
+          <span class="osw-rec-dot inline-block w-2.5 h-2.5 rounded-full bg-red-500"></span>
+          <span class="text-xs text-text-muted font-mono tracking-wider">0:03</span>
+        </div>
+        <div class="osw-waveform flex items-center justify-center gap-[3px] h-20 w-full">
+          <span class="osw-bar" style="--i:0"></span>
+          <span class="osw-bar" style="--i:1"></span>
+          <span class="osw-bar" style="--i:2"></span>
+          <span class="osw-bar" style="--i:3"></span>
+          <span class="osw-bar" style="--i:4"></span>
+          <span class="osw-bar" style="--i:5"></span>
+          <span class="osw-bar" style="--i:6"></span>
+          <span class="osw-bar" style="--i:7"></span>
+          <span class="osw-bar" style="--i:8"></span>
+          <span class="osw-bar" style="--i:9"></span>
+          <span class="osw-bar" style="--i:10"></span>
+          <span class="osw-bar" style="--i:11"></span>
+          <span class="osw-bar" style="--i:12"></span>
+          <span class="osw-bar" style="--i:13"></span>
+          <span class="osw-bar" style="--i:14"></span>
+          <span class="osw-bar" style="--i:15"></span>
+          <span class="osw-bar" style="--i:16"></span>
+          <span class="osw-bar" style="--i:17"></span>
+          <span class="osw-bar" style="--i:18"></span>
+          <span class="osw-bar" style="--i:19"></span>
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <!-- Model size trade-offs -->
+  <Section bg="secondary">
+    <div class="animate-in max-w-3xl">
+      <h2 class="font-sans text-2xl sm:text-3xl font-bold tracking-tight text-text-primary mb-5">Model size trade-offs</h2>
+      <p class="text-text-secondary leading-relaxed mb-8">
+        OSW ships with five quality tiers, and choosing between them is the one real decision a user has to make.
+      </p>
+
+      <CodeTabs tabs={["Balanced", "Fast", "Quality", "High", "Maximum"]}>
+        <div role="tabpanel" data-tab-index="0" class="rounded-xl border border-border bg-bg-elevated/50 p-6">
+          <h3 class="font-sans text-lg font-bold text-accent-400">Balanced (default)</h3>
+          <p class="text-xs text-text-muted mt-1 mb-3 font-mono">distil-medium.en (~800 MB)</p>
+          <p class="text-sm text-text-secondary leading-relaxed">
+            The sweet spot for most people. It handles natural speech well, deals with filler words and pauses gracefully, and transcribes in roughly real-time on a modern CPU. If you do not know which tier to pick, start here.
+          </p>
+        </div>
+        <div role="tabpanel" data-tab-index="1" hidden class="rounded-xl border border-border bg-bg-elevated/50 p-6">
+          <h3 class="font-sans text-lg font-bold text-accent-400">Fast</h3>
+          <p class="text-xs text-text-muted mt-1 mb-3 font-mono">distil-small.en (~336 MB)</p>
+          <p class="text-sm text-text-secondary leading-relaxed">
+            Transcribes almost instantly, even on older hardware. Accuracy is decent for clear speech and short phrases. It struggles with technical jargon, mumbling, and longer sentences. Ideal when you want near-instant results on machines without a dedicated GPU.
+          </p>
+        </div>
+        <div role="tabpanel" data-tab-index="2" hidden class="rounded-xl border border-border bg-bg-elevated/50 p-6">
+          <h3 class="font-sans text-lg font-bold text-accent-400">Quality</h3>
+          <p class="text-xs text-text-muted mt-1 mb-3 font-mono">medium (~1.5 GB)</p>
+          <p class="text-sm text-text-secondary leading-relaxed">
+            Noticeably better with accents, technical vocabulary, and longer sentences. Processing takes a beat longer, but the jump in accuracy over Balanced is meaningful if you are dictating more than one-liners.
+          </p>
+        </div>
+        <div role="tabpanel" data-tab-index="3" hidden class="rounded-xl border border-border bg-bg-elevated/50 p-6">
+          <h3 class="font-sans text-lg font-bold text-accent-400">High</h3>
+          <p class="text-xs text-text-muted mt-1 mb-3 font-mono">large-v2 (~2.9 GB)</p>
+          <p class="text-sm text-text-secondary leading-relaxed">
+            For multilingual use or when accuracy matters more than speed. Handles code-switching between languages and uncommon proper nouns well. Needs a decent GPU to stay comfortable.
+          </p>
+        </div>
+        <div role="tabpanel" data-tab-index="4" hidden class="rounded-xl border border-border bg-bg-elevated/50 p-6">
+          <h3 class="font-sans text-lg font-bold text-accent-400">Maximum</h3>
+          <p class="text-xs text-text-muted mt-1 mb-3 font-mono">large-v3 (~3 GB)</p>
+          <p class="text-sm text-text-secondary leading-relaxed">
+            The best accuracy you can get locally. It handles accents, code-switching between languages, and obscure vocabulary noticeably better. Transcription takes longer, and the model takes a few seconds to load on first use. Worth it if accuracy is critical. Overkill for quick notes.
+          </p>
+        </div>
+      </CodeTabs>
+
+      <p class="mt-6 text-text-secondary leading-relaxed">
+        My advice: start with Balanced. Switch to Quality or High if you find yourself correcting too many words. You will know within a few minutes of use whether you need more accuracy.
+      </p>
+    </div>
+  </Section>
+
+  <!-- The privacy angle -->
+  <Section>
+    <div class="animate-in max-w-3xl">
+      <h2 class="font-sans text-2xl sm:text-3xl font-bold tracking-tight text-text-primary mb-5">The privacy angle</h2>
+      <p class="text-text-secondary leading-relaxed mb-5">
+        Here is something that gets overlooked in the "cloud vs. local" debate. Every cloud-based dictation service receives a recording of your voice. Even if they promise not to store it, the audio travels over the network and is processed on someone else's server. If you are dictating passwords, medical notes, legal documents, or anything you would not want a third party to hear, that matters.
+      </p>
+      <p class="text-text-secondary leading-relaxed mb-5">
+        With local inference, the audio never leaves your machine. There is no network call after the initial model download. No telemetry. No analytics. Your voice data exists only in RAM for the few seconds it takes to transcribe, then it is gone.
+      </p>
+      <p class="text-text-secondary leading-relaxed mb-8">
+        This is not a theoretical concern. It is a practical reason to prefer local tools for sensitive work.
+      </p>
+
+      <!-- Privacy callout -->
+      <div class="bg-accent-500/5 border border-accent-500/20 rounded-xl p-6">
+        <p class="text-base sm:text-lg text-text-primary leading-relaxed">
+          With local inference, the audio never leaves your machine. No network calls. No telemetry. No analytics. Your voice data exists only in RAM for the few seconds it takes to transcribe, then it is gone.
+        </p>
+      </div>
+    </div>
+  </Section>
+
+  <!-- Where local speech recognition is heading + footer links -->
+  <Section bg="secondary">
+    <div class="animate-in max-w-3xl">
+      <h2 class="font-sans text-2xl sm:text-3xl font-bold tracking-tight text-text-primary mb-5">Where local speech recognition is heading</h2>
+      <p class="text-text-secondary leading-relaxed mb-5">
+        The trajectory is clear. Models are getting smaller and faster without losing accuracy. Hardware is getting better at running them. Two years ago, running Whisper locally was a research project. Today it is a pip install.
+      </p>
+      <p class="text-text-secondary leading-relaxed mb-5">
+        I expect the next wave will bring real-time streaming transcription to consumer hardware (words appearing as you speak, not after you stop), better support for speaker diarization, and tighter OS-level integration. Apple already ships local dictation on macOS and iOS. It is only a matter of time before Linux desktops and Windows offer something comparable out of the box.
+      </p>
+      <p class="text-text-secondary leading-relaxed mb-8">
+        Until then, tools like OSW fill the gap. A free, open, local alternative to subscription dictation. Your microphone, your CPU, your text. Nothing else involved.
+      </p>
+
+      <div class="flex flex-wrap gap-4">
+        <a
+          href="/projects/osw/"
+          class="inline-flex items-center justify-center rounded-lg border border-accent-500/30 bg-accent-500/10 px-5 py-2.5 text-sm font-medium text-accent-400 hover:bg-accent-500/20 transition-colors"
+        >
+          View project page
+        </a>
+        <a
+          href="https://github.com/Gustavjiversen01/OSW"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center justify-center rounded-lg border border-border bg-bg-elevated px-5 py-2.5 text-sm font-medium text-text-secondary hover:text-text-primary hover:border-border-hover transition-colors"
+        >
+          <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+          </svg>
+          GitHub repository
+        </a>
+      </div>
+    </div>
+  </Section>
+</BaseLayout>
+
+<style>
+  /* Waveform bar animation */
+  .osw-bar {
+    display: inline-block;
+    width: 4px;
+    border-radius: 2px;
+    background-color: rgba(212, 168, 67, 0.35);
+    animation: osw-pulse 1.2s ease-in-out infinite alternate;
+    animation-delay: calc(var(--i) * 0.07s);
+  }
+
+  @keyframes osw-pulse {
+    0% {
+      height: 12px;
+    }
+    100% {
+      height: 56px;
+    }
+  }
+
+  /* Distribute heights for a natural look */
+  .osw-bar:nth-child(1)  { height: 16px; }
+  .osw-bar:nth-child(2)  { height: 28px; }
+  .osw-bar:nth-child(3)  { height: 40px; }
+  .osw-bar:nth-child(4)  { height: 24px; }
+  .osw-bar:nth-child(5)  { height: 48px; }
+  .osw-bar:nth-child(6)  { height: 32px; }
+  .osw-bar:nth-child(7)  { height: 20px; }
+  .osw-bar:nth-child(8)  { height: 44px; }
+  .osw-bar:nth-child(9)  { height: 36px; }
+  .osw-bar:nth-child(10) { height: 52px; }
+  .osw-bar:nth-child(11) { height: 28px; }
+  .osw-bar:nth-child(12) { height: 44px; }
+  .osw-bar:nth-child(13) { height: 20px; }
+  .osw-bar:nth-child(14) { height: 36px; }
+  .osw-bar:nth-child(15) { height: 50px; }
+  .osw-bar:nth-child(16) { height: 24px; }
+  .osw-bar:nth-child(17) { height: 40px; }
+  .osw-bar:nth-child(18) { height: 16px; }
+  .osw-bar:nth-child(19) { height: 32px; }
+  .osw-bar:nth-child(20) { height: 22px; }
+
+  /* Recording dot pulse */
+  .osw-rec-dot {
+    animation: osw-dot-pulse 1.4s ease-in-out infinite;
+  }
+
+  @keyframes osw-dot-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .osw-bar {
+      animation: none;
+    }
+    .osw-rec-dot {
+      animation: none;
+    }
+  }
+</style>

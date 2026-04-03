@@ -1,0 +1,54 @@
+---
+interface Props {
+  tabs: string[];
+}
+
+const { tabs } = Astro.props;
+const id = `tabs-${Math.random().toString(36).slice(2, 8)}`;
+---
+
+<div class="code-tabs" data-tabs-id={id}>
+  <div role="tablist" class="flex gap-1 border-b border-border mb-6">
+    {tabs.map((tab, i) => (
+      <button
+        role="tab"
+        aria-selected={i === 0 ? 'true' : 'false'}
+        data-tab-index={i}
+        class:list={[
+          'px-4 py-2.5 text-sm font-medium transition-colors duration-150 border-b-2 -mb-px',
+          i === 0
+            ? 'border-accent-500 text-accent-400'
+            : 'border-transparent text-text-muted hover:text-text-primary',
+        ]}
+      >
+        {tab}
+      </button>
+    ))}
+  </div>
+  <slot />
+</div>
+
+<script>
+  document.querySelectorAll('.code-tabs').forEach((container) => {
+    const buttons = container.querySelectorAll('[role="tab"]');
+    const panels = container.querySelectorAll('[role="tabpanel"]');
+
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const index = btn.getAttribute('data-tab-index');
+        buttons.forEach((b) => {
+          const isActive = b.getAttribute('data-tab-index') === index;
+          b.setAttribute('aria-selected', String(isActive));
+          b.className = b.className
+            .replace(/border-accent-500|border-transparent/g, '')
+            .replace(/text-accent-400|text-text-muted/g, '');
+          b.classList.add(isActive ? 'border-accent-500' : 'border-transparent');
+          b.classList.add(isActive ? 'text-accent-400' : 'text-text-muted');
+        });
+        panels.forEach((p, i) => {
+          p.hidden = i !== Number(index);
+        });
+      });
+    });
+  });
+</script>

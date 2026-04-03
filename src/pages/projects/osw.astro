@@ -1,0 +1,307 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '../../components/Section.astro';
+import TagList from '../../components/TagList.astro';
+import ExpandableSection from '../../components/ExpandableSection.astro';
+import CodeTabs from '../../components/CodeTabs.astro';
+---
+
+<BaseLayout
+  title="OSW: Open Source Whisper | Gustav Jes Iversen"
+  description="Press a hotkey, speak, see text at your cursor. Local Whisper-based dictation that runs entirely on-device. No cloud, no accounts, no network calls."
+>
+  <!-- Section 1: Hero -->
+  <Section class="pt-8">
+    <div class="animate-in">
+      <a
+        href="/projects/"
+        class="inline-flex items-center text-sm text-text-muted hover:text-accent-400 transition-colors mb-8"
+      >
+        <svg class="w-4 h-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+        </svg>
+        Back to projects
+      </a>
+
+      <TagList tags={["Python", "Whisper", "PySide6", "faster-whisper", "Desktop App"]} />
+
+      <h1 class="mt-6 font-sans text-3xl sm:text-5xl font-bold tracking-tight">OSW</h1>
+      <p class="mt-2 text-lg text-accent-400 font-medium">Open Source Whisper</p>
+      <p class="mt-4 text-base sm:text-lg text-text-secondary max-w-2xl leading-relaxed">
+        Every voice-to-text tool I could find required a subscription. Monthly fees just to dictate text on your own computer, using your own microphone. OSW exists because that felt wrong. It is free, runs entirely on your machine using OpenAI's Whisper models, and works on any computer. You choose the model size based on what your hardware can handle, from a lightweight 336 MB model to the full 3 GB Whisper large-v3.
+      </p>
+
+      <div class="mt-8">
+        <a
+          href="https://github.com/Gustavjiversen01/osw"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-glow inline-flex items-center justify-center bg-accent-500 text-bg-primary rounded-lg px-5 py-2.5 text-sm font-medium hover:bg-accent-400 transition-colors"
+        >
+          <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+          </svg>
+          Repository
+        </a>
+      </div>
+
+      <!-- 3-step flow diagram -->
+      <div class="mt-12">
+        <!-- Horizontal layout (sm+) -->
+        <svg class="hidden sm:block w-full max-w-2xl mx-auto" viewBox="0 0 660 100" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Three-step flow: press hotkey, speak naturally, text at cursor">
+          <!-- Step 1 -->
+          <rect x="0" y="10" width="180" height="80" rx="12" fill="#1a1a1f" stroke="rgba(255,255,255,0.08)" stroke-width="1.5" />
+          <!-- Keyboard icon -->
+          <rect x="34" y="32" width="22" height="16" rx="3" stroke="#e4be5a" stroke-width="1.5" fill="none" />
+          <line x1="39" y1="37" x2="39" y2="37.01" stroke="#e4be5a" stroke-width="2" stroke-linecap="round" />
+          <line x1="45" y1="37" x2="45" y2="37.01" stroke="#e4be5a" stroke-width="2" stroke-linecap="round" />
+          <line x1="51" y1="37" x2="51" y2="37.01" stroke="#e4be5a" stroke-width="2" stroke-linecap="round" />
+          <line x1="39" y1="43" x2="51" y2="43" stroke="#e4be5a" stroke-width="1.5" stroke-linecap="round" />
+          <text x="66" y="44" fill="#8b8b93" font-size="13" font-family="Inter, system-ui, sans-serif">Press hotkey</text>
+
+          <!-- Connector 1-2 -->
+          <line x1="185" y1="50" x2="232" y2="50" stroke="#d4a843" stroke-width="1" />
+          <polyline points="228,46 234,50 228,54" fill="none" stroke="#d4a843" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+
+          <!-- Step 2 -->
+          <rect x="240" y="10" width="180" height="80" rx="12" fill="#1a1a1f" stroke="rgba(255,255,255,0.08)" stroke-width="1.5" />
+          <!-- Waveform icon -->
+          <line x1="276" y1="43" x2="276" y2="57" stroke="#e4be5a" stroke-width="2" stroke-linecap="round" />
+          <line x1="281" y1="37" x2="281" y2="63" stroke="#e4be5a" stroke-width="2" stroke-linecap="round" />
+          <line x1="286" y1="40" x2="286" y2="60" stroke="#e4be5a" stroke-width="2" stroke-linecap="round" />
+          <line x1="291" y1="34" x2="291" y2="66" stroke="#e4be5a" stroke-width="2" stroke-linecap="round" />
+          <line x1="296" y1="40" x2="296" y2="60" stroke="#e4be5a" stroke-width="2" stroke-linecap="round" />
+          <text x="308" y="54" fill="#8b8b93" font-size="13" font-family="Inter, system-ui, sans-serif">Speak naturally</text>
+
+          <!-- Connector 2-3 -->
+          <line x1="425" y1="50" x2="472" y2="50" stroke="#d4a843" stroke-width="1" />
+          <polyline points="468,46 474,50 468,54" fill="none" stroke="#d4a843" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+
+          <!-- Step 3 -->
+          <rect x="480" y="10" width="180" height="80" rx="12" fill="#1a1a1f" stroke="rgba(255,255,255,0.08)" stroke-width="1.5" />
+          <!-- Cursor icon -->
+          <path d="M516 33 L516 58 L522 52 L528 62 L531 60 L525 50 L532 48 Z" fill="none" stroke="#e4be5a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          <text x="542" y="50" fill="#8b8b93" font-size="13" font-family="Inter, system-ui, sans-serif">Text at cursor</text>
+        </svg>
+
+        <!-- Vertical layout (mobile) -->
+        <svg class="block sm:hidden w-full max-w-[220px] mx-auto" viewBox="0 0 220 340" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Three-step flow: press hotkey, speak naturally, text at cursor">
+          <!-- Step 1 -->
+          <rect x="10" y="0" width="200" height="70" rx="12" fill="#1a1a1f" stroke="rgba(255,255,255,0.08)" stroke-width="1.5" />
+          <rect x="30" y="22" width="22" height="16" rx="3" stroke="#e4be5a" stroke-width="1.5" fill="none" />
+          <line x1="35" y1="27" x2="35" y2="27.01" stroke="#e4be5a" stroke-width="2" stroke-linecap="round" />
+          <line x1="41" y1="27" x2="41" y2="27.01" stroke="#e4be5a" stroke-width="2" stroke-linecap="round" />
+          <line x1="47" y1="27" x2="47" y2="27.01" stroke="#e4be5a" stroke-width="2" stroke-linecap="round" />
+          <line x1="35" y1="33" x2="47" y2="33" stroke="#e4be5a" stroke-width="1.5" stroke-linecap="round" />
+          <text x="62" y="34" fill="#8b8b93" font-size="13" font-family="Inter, system-ui, sans-serif">Press hotkey</text>
+
+          <!-- Connector 1-2 -->
+          <line x1="110" y1="75" x2="110" y2="128" stroke="#d4a843" stroke-width="1" />
+          <polyline points="106,124 110,130 114,124" fill="none" stroke="#d4a843" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+
+          <!-- Step 2 -->
+          <rect x="10" y="135" width="200" height="70" rx="12" fill="#1a1a1f" stroke="rgba(255,255,255,0.08)" stroke-width="1.5" />
+          <line x1="34" y1="165" x2="34" y2="175" stroke="#e4be5a" stroke-width="2" stroke-linecap="round" />
+          <line x1="39" y1="160" x2="39" y2="180" stroke="#e4be5a" stroke-width="2" stroke-linecap="round" />
+          <line x1="44" y1="163" x2="44" y2="177" stroke="#e4be5a" stroke-width="2" stroke-linecap="round" />
+          <line x1="49" y1="158" x2="49" y2="182" stroke="#e4be5a" stroke-width="2" stroke-linecap="round" />
+          <line x1="54" y1="163" x2="54" y2="177" stroke="#e4be5a" stroke-width="2" stroke-linecap="round" />
+          <text x="66" y="174" fill="#8b8b93" font-size="13" font-family="Inter, system-ui, sans-serif">Speak naturally</text>
+
+          <!-- Connector 2-3 -->
+          <line x1="110" y1="210" x2="110" y2="263" stroke="#d4a843" stroke-width="1" />
+          <polyline points="106,259 110,265 114,259" fill="none" stroke="#d4a843" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+
+          <!-- Step 3 -->
+          <rect x="10" y="270" width="200" height="70" rx="12" fill="#1a1a1f" stroke="rgba(255,255,255,0.08)" stroke-width="1.5" />
+          <path d="M34 287 L34 312 L40 306 L46 316 L49 314 L43 304 L50 302 Z" fill="none" stroke="#e4be5a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          <text x="60" y="304" fill="#8b8b93" font-size="13" font-family="Inter, system-ui, sans-serif">Text at cursor</text>
+        </svg>
+      </div>
+    </div>
+  </Section>
+
+  <!-- Section 2: Waveform + How it works -->
+  <Section bg="secondary">
+    <div class="animate-in grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+      <!-- Left: Animated waveform -->
+      <div class="osw-waveform-container rounded-2xl border border-border bg-bg-elevated/60 p-6 flex flex-col items-center justify-center min-h-[180px]">
+        <div class="flex items-center gap-3 mb-4 self-start">
+          <span class="osw-rec-dot inline-block w-2.5 h-2.5 rounded-full bg-red-500"></span>
+          <span class="text-xs text-text-muted font-mono tracking-wider">0:03</span>
+        </div>
+        <div class="osw-waveform flex items-center justify-center gap-[3px] h-20 w-full">
+          <span class="osw-bar" style="--i:0"></span>
+          <span class="osw-bar" style="--i:1"></span>
+          <span class="osw-bar" style="--i:2"></span>
+          <span class="osw-bar" style="--i:3"></span>
+          <span class="osw-bar" style="--i:4"></span>
+          <span class="osw-bar" style="--i:5"></span>
+          <span class="osw-bar" style="--i:6"></span>
+          <span class="osw-bar" style="--i:7"></span>
+          <span class="osw-bar" style="--i:8"></span>
+          <span class="osw-bar" style="--i:9"></span>
+          <span class="osw-bar" style="--i:10"></span>
+          <span class="osw-bar" style="--i:11"></span>
+          <span class="osw-bar" style="--i:12"></span>
+          <span class="osw-bar" style="--i:13"></span>
+          <span class="osw-bar" style="--i:14"></span>
+          <span class="osw-bar" style="--i:15"></span>
+          <span class="osw-bar" style="--i:16"></span>
+          <span class="osw-bar" style="--i:17"></span>
+          <span class="osw-bar" style="--i:18"></span>
+          <span class="osw-bar" style="--i:19"></span>
+        </div>
+      </div>
+
+      <!-- Right: Explanation -->
+      <div>
+        <h2 class="font-sans text-2xl sm:text-3xl font-bold tracking-tight mb-4">How it works</h2>
+        <p class="text-text-secondary leading-relaxed">
+          Press <kbd class="inline-block px-1.5 py-0.5 text-xs font-mono bg-bg-elevated border border-border rounded">Ctrl+Space</kbd>. Talk. Press it again. The words appear at your cursor, in whatever application has focus. No browser tab. No account. No microphone data leaving your machine.
+        </p>
+      </div>
+    </div>
+  </Section>
+
+  <!-- Section 3: Model Tiers -->
+  <Section>
+    <div class="animate-in">
+      <h2 class="font-sans text-2xl sm:text-3xl font-bold tracking-tight mb-8">Pick your trade-off</h2>
+      <CodeTabs tabs={["Balanced", "Fast", "Quality", "High", "Maximum"]}>
+        <div role="tabpanel" data-tab-index="0" class="rounded-xl border border-border bg-bg-elevated/50 p-6">
+          <h3 class="font-sans text-lg font-bold text-accent-400">Balanced</h3>
+          <p class="text-xs text-text-muted mt-1 mb-3 font-mono">small (~461 MB)</p>
+          <p class="text-sm text-text-secondary leading-relaxed">
+            The default. Good accuracy for English, reasonable speed on most hardware. If you don't know which tier to pick, this is the one. It handles everyday dictation without burning through your GPU memory or making you wait.
+          </p>
+        </div>
+        <div role="tabpanel" data-tab-index="1" hidden class="rounded-xl border border-border bg-bg-elevated/50 p-6">
+          <h3 class="font-sans text-lg font-bold text-accent-400">Fast</h3>
+          <p class="text-xs text-text-muted mt-1 mb-3 font-mono">tiny (~336 MB)</p>
+          <p class="text-sm text-text-secondary leading-relaxed">
+            Lowest latency, smallest footprint. Trades accuracy for speed. Works well for short, clear commands and quick notes. Ideal on machines without a dedicated GPU or when you want near-instant results.
+          </p>
+        </div>
+        <div role="tabpanel" data-tab-index="2" hidden class="rounded-xl border border-border bg-bg-elevated/50 p-6">
+          <h3 class="font-sans text-lg font-bold text-accent-400">Quality</h3>
+          <p class="text-xs text-text-muted mt-1 mb-3 font-mono">medium (~1.5 GB)</p>
+          <p class="text-sm text-text-secondary leading-relaxed">
+            Noticeably better with accents, technical vocabulary, and longer sentences. Processing takes a beat longer, but the jump in accuracy over Balanced is meaningful if you're dictating more than one-liners.
+          </p>
+        </div>
+        <div role="tabpanel" data-tab-index="3" hidden class="rounded-xl border border-border bg-bg-elevated/50 p-6">
+          <h3 class="font-sans text-lg font-bold text-accent-400">High</h3>
+          <p class="text-xs text-text-muted mt-1 mb-3 font-mono">large-v2 (~2.9 GB)</p>
+          <p class="text-sm text-text-secondary leading-relaxed">
+            For multilingual use or when accuracy matters more than speed. Handles code-switching between languages and uncommon proper nouns well. Needs a decent GPU to stay comfortable.
+          </p>
+        </div>
+        <div role="tabpanel" data-tab-index="4" hidden class="rounded-xl border border-border bg-bg-elevated/50 p-6">
+          <h3 class="font-sans text-lg font-bold text-accent-400">Maximum</h3>
+          <p class="text-xs text-text-muted mt-1 mb-3 font-mono">large-v3 (~3 GB)</p>
+          <p class="text-sm text-text-secondary leading-relaxed">
+            The largest model Whisper offers. Best-in-class accuracy across languages and accents. You'll want a GPU with at least 6 GB of VRAM. Transcription takes noticeably longer, but the output is as good as it gets locally.
+          </p>
+        </div>
+      </CodeTabs>
+    </div>
+  </Section>
+
+  <!-- Section 4: Under the hood -->
+  <Section bg="secondary">
+    <div class="animate-in">
+      <h2 class="font-sans text-2xl sm:text-3xl font-bold tracking-tight mb-4">Under the hood</h2>
+      <p class="text-text-secondary leading-relaxed mb-8 max-w-2xl">
+        OSW is a small Python application glued together from well-tested libraries. There's no custom ML, no custom audio engine. Just a straightforward pipeline from microphone to text cursor.
+      </p>
+
+      <div class="flex flex-col gap-3">
+        <ExpandableSection summary="Audio pipeline">
+          <p>
+            Audio comes in through <code class="text-accent-300">sounddevice</code> (a PortAudio binding) at 16 kHz mono, the sample rate Whisper expects. Frames accumulate in a <code class="text-accent-300">collections.deque</code> while the hotkey is held. When recording stops, the buffer is concatenated into a NumPy array and handed off to <code class="text-accent-300">faster-whisper</code>, a CTranslate2-backed Whisper implementation that supports int8 quantization for smaller memory footprint and faster inference. The transcribed text is then injected at the cursor position via <code class="text-accent-300">xdotool</code> on Linux or <code class="text-accent-300">pynput</code> on Windows and macOS.
+          </p>
+        </ExpandableSection>
+
+        <ExpandableSection summary="System tray integration">
+          <p>
+            The UI is a PySide6 (Qt 6) tray-only application with no main window. The tray icon reflects three visual states: idle, recording (red), and processing (amber). Hotkey detection and audio capture run on background threads, with Qt signals bridging back to the main thread for icon updates and text injection. This keeps the tray responsive even during transcription.
+          </p>
+        </ExpandableSection>
+
+        <ExpandableSection summary="Settings and configuration">
+          <p>
+            Configuration lives in <code class="text-accent-300">~/.config/osw/settings.json</code>. The settings GUI lets you pick a model tier, select a microphone device, change the global hotkey, and toggle launch-at-login (via a desktop autostart entry). Custom models are supported by entering any faster-whisper-compatible HuggingFace model ID. Everything has a sane default. The app works out of the box with zero configuration.
+          </p>
+        </ExpandableSection>
+      </div>
+
+      <p class="mt-8 text-sm text-text-muted">
+        The entire application is ~400 lines of Python across five modules. No framework magic, no plugin system. Just a tray app that does one thing.
+      </p>
+    </div>
+  </Section>
+</BaseLayout>
+
+<style>
+  /* Waveform bar animation */
+  .osw-bar {
+    display: inline-block;
+    width: 4px;
+    border-radius: 2px;
+    background-color: rgba(212, 168, 67, 0.35);
+    animation: osw-pulse 1.2s ease-in-out infinite alternate;
+    animation-delay: calc(var(--i) * 0.07s);
+  }
+
+  @keyframes osw-pulse {
+    0% {
+      height: 12px;
+    }
+    100% {
+      height: 56px;
+    }
+  }
+
+  /* Distribute heights for a natural look */
+  .osw-bar:nth-child(1)  { height: 16px; }
+  .osw-bar:nth-child(2)  { height: 28px; }
+  .osw-bar:nth-child(3)  { height: 40px; }
+  .osw-bar:nth-child(4)  { height: 24px; }
+  .osw-bar:nth-child(5)  { height: 48px; }
+  .osw-bar:nth-child(6)  { height: 32px; }
+  .osw-bar:nth-child(7)  { height: 20px; }
+  .osw-bar:nth-child(8)  { height: 44px; }
+  .osw-bar:nth-child(9)  { height: 36px; }
+  .osw-bar:nth-child(10) { height: 52px; }
+  .osw-bar:nth-child(11) { height: 28px; }
+  .osw-bar:nth-child(12) { height: 44px; }
+  .osw-bar:nth-child(13) { height: 20px; }
+  .osw-bar:nth-child(14) { height: 36px; }
+  .osw-bar:nth-child(15) { height: 50px; }
+  .osw-bar:nth-child(16) { height: 24px; }
+  .osw-bar:nth-child(17) { height: 40px; }
+  .osw-bar:nth-child(18) { height: 16px; }
+  .osw-bar:nth-child(19) { height: 32px; }
+  .osw-bar:nth-child(20) { height: 22px; }
+
+  /* Recording dot pulse */
+  .osw-rec-dot {
+    animation: osw-dot-pulse 1.4s ease-in-out infinite;
+  }
+
+  @keyframes osw-dot-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .osw-bar {
+      animation: none;
+    }
+    .osw-rec-dot {
+      animation: none;
+    }
+  }
+</style>
