@@ -7,7 +7,7 @@ import CodeTabs from '../../components/CodeTabs.astro';
 ---
 
 <BaseLayout
-  title="OSW: Open Source Whisper | Gustav Jes Iversen"
+  title="localdictate | Gustav Jes Iversen"
   description="Press a hotkey, speak, see text at your cursor. Local Whisper-based dictation that runs entirely on-device. No cloud, no accounts, no network calls."
 >
   <!-- Section 1: Hero -->
@@ -25,15 +25,14 @@ import CodeTabs from '../../components/CodeTabs.astro';
 
       <TagList tags={["Python", "Whisper", "PySide6", "faster-whisper", "Desktop App"]} />
 
-      <h1 class="mt-6 font-sans text-3xl sm:text-5xl font-bold tracking-tight">OSW</h1>
-      <p class="mt-2 text-lg text-accent-400 font-medium">Open Source Whisper</p>
+      <h1 class="mt-6 font-sans text-3xl sm:text-5xl font-bold tracking-tight">localdictate</h1>
       <p class="mt-4 text-base sm:text-lg text-text-secondary max-w-2xl leading-relaxed">
-        Every voice-to-text tool I could find required a subscription. Monthly fees just to dictate text on your own computer, using your own microphone. OSW exists because that felt wrong. It is free, runs entirely on your machine using OpenAI's Whisper models, and works on any computer. You choose the model size based on what your hardware can handle, from a lightweight 336 MB model to the full 3 GB Whisper large-v3.
+        Every voice-to-text tool I could find required a subscription. Monthly fees just to dictate text on your own computer, using your own microphone. localdictate exists because that felt wrong. It is free, runs entirely on your machine using OpenAI's Whisper models, and works on any computer. You choose the model size based on what your hardware can handle, from a lightweight 336 MB model to the full 3 GB Whisper large-v3.
       </p>
 
       <div class="mt-8">
         <a
-          href="https://github.com/Gustavjiversen01/osw"
+          href="https://github.com/Gustavjiversen01/localdictate"
           target="_blank"
           rel="noopener noreferrer"
           class="btn-glow inline-flex items-center justify-center bg-accent-500 text-bg-primary rounded-lg px-5 py-2.5 text-sm font-medium hover:bg-accent-400 transition-colors"
@@ -213,7 +212,7 @@ import CodeTabs from '../../components/CodeTabs.astro';
     <div class="animate-in">
       <h2 class="font-sans text-2xl sm:text-3xl font-bold tracking-tight mb-4">Under the hood</h2>
       <p class="text-text-secondary leading-relaxed mb-8 max-w-2xl">
-        OSW is a small Python application glued together from well-tested libraries. There's no custom ML, no custom audio engine. Just a straightforward pipeline from microphone to text cursor.
+        localdictate is a small Python application glued together from well-tested libraries. There's no custom ML, no custom audio engine. Just a straightforward pipeline from microphone to text cursor.
       </p>
 
       <div class="flex flex-col gap-3">
@@ -231,7 +230,7 @@ import CodeTabs from '../../components/CodeTabs.astro';
 
         <ExpandableSection summary="Settings and configuration">
           <p>
-            Configuration lives in <code class="text-accent-300">~/.config/osw/settings.json</code>. The settings GUI lets you pick a model tier, select a microphone device, change the global hotkey, and toggle launch-at-login (via a desktop autostart entry). Custom models are supported by entering any faster-whisper-compatible HuggingFace model ID. Everything has a sane default. The app works out of the box with zero configuration.
+            Configuration lives in <code class="text-accent-300">~/.config/localdictate/settings.json</code>. The settings GUI lets you pick a model tier, select a microphone device, change the global hotkey, and toggle launch-at-login (via a desktop autostart entry). Custom models are supported by entering any faster-whisper-compatible HuggingFace model ID. Everything has a sane default. The app works out of the box with zero configuration.
           </p>
         </ExpandableSection>
       </div>

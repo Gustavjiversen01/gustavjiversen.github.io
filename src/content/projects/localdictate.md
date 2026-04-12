@@ -1,13 +1,13 @@
 ---
-title: "OSW: Open Source Whisper"
+title: "localdictate"
 description: "A local, privacy-first voice-to-text dictation tool for the desktop. Press a hotkey, speak, and the transcribed text is typed directly into the focused application. Runs entirely on-device using OpenAI's Whisper models. No cloud, no accounts, no telemetry."
-repo: "https://github.com/Gustavjiversen01/osw"
+repo: "https://github.com/Gustavjiversen01/localdictate"
 tags: ["Python", "Whisper", "PySide6", "faster-whisper", "Desktop App"]
 featured: true
 publishDate: 2026-04-01
 ---
 
-OSW (Open Source Whisper) is a desktop dictation tool that runs entirely on your machine. It lives in the system tray, listens for a global hotkey, records your voice, transcribes it locally with Whisper, and types the result into whatever application has focus.
+localdictate is a desktop dictation tool that runs entirely on your machine. It lives in the system tray, listens for a global hotkey, records your voice, transcribes it locally with Whisper, and types the result into whatever application has focus.
 
 ## How it works
 

@@ -8,9 +8,9 @@ draft: false
 
 I wanted to dictate text on my computer. Speak into my microphone, have words appear at the cursor. Simple enough in concept. Every tool I found wanted $5, $10, or $15 a month for the privilege. Not for cloud compute on some difficult task. Just to use my own CPU to turn my own voice into text.
 
-That felt wrong. So I built [OSW](https://github.com/Gustavjiversen01/OSW) (Open Source Whisper), a free, local voice-to-text tool that runs entirely on your machine.
+That felt wrong. So I built [localdictate](https://github.com/Gustavjiversen01/localdictate), a free, local voice-to-text tool that runs entirely on your machine.
 
-But this post is not really about OSW. It is about why local speech recognition is now practical for anyone, and what it took to get here.
+But this post is not really about localdictate. It is about why local speech recognition is now practical for anyone, and what it took to get here.
 
 ## The subscription trap
 
@@ -36,11 +36,11 @@ Then came the distilled models. Researchers at Hugging Face trained smaller vers
 
 The result: you can run high-quality speech recognition on a laptop with no GPU. Not as a proof of concept. As an everyday tool.
 
-## Building OSW
+## Building localdictate
 
 When I sat down to build this, I had a few constraints in mind.
 
-**It should be invisible.** No main window, no browser tab, no Electron app eating 400 MB of RAM in the background. OSW runs as a system tray icon. A small red dot appears while recording. That is the entire UI during normal use.
+**It should be invisible.** No main window, no browser tab, no Electron app eating 400 MB of RAM in the background. localdictate runs as a system tray icon. A small red dot appears while recording. That is the entire UI during normal use.
 
 **It should be instant to invoke.** Press `Ctrl+Space`, speak, press it again. The text appears wherever your cursor is. The hotkey is global and configurable. The interaction model is: think, press, speak, press, keep working. No context switching.
 
@@ -52,7 +52,7 @@ One design decision I am happy with: lazy model loading. The model does not load
 
 ## Model size trade-offs
 
-OSW ships with five quality tiers, and choosing between them is the one real decision a user has to make.
+localdictate ships with five quality tiers, and choosing between them is the one real decision a user has to make.
 
 The **Fast** tier uses the distil-small.en model at about 336 MB. It transcribes almost instantly, even on older hardware. Accuracy is decent for clear speech and short phrases. It struggles with technical jargon, mumbling, and longer sentences.
 
@@ -76,6 +76,6 @@ The trajectory is clear. Models are getting smaller and faster without losing ac
 
 I expect the next wave will bring real-time streaming transcription to consumer hardware (words appearing as you speak, not after you stop), better support for speaker diarization, and tighter OS-level integration. Apple already ships local dictation on macOS and iOS. It is only a matter of time before Linux desktops and Windows offer something comparable out of the box.
 
-Until then, tools like OSW fill the gap. A free, open, local alternative to subscription dictation. Your microphone, your CPU, your text. Nothing else involved.
+Until then, tools like localdictate fill the gap. A free, open, local alternative to subscription dictation. Your microphone, your CPU, your text. Nothing else involved.
 
-If you want to try it: [github.com/Gustavjiversen01/OSW](https://github.com/Gustavjiversen01/OSW). It is MIT licensed. Contributions are welcome.
+If you want to try it: [github.com/Gustavjiversen01/localdictate](https://github.com/Gustavjiversen01/localdictate). It is MIT licensed. Contributions are welcome.
